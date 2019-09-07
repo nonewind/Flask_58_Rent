@@ -6,12 +6,79 @@
     {% if title %}
     <title>{{title}}</title>
     {% else %}
-    <title>我的第一个前端code</title>
+    <title>快点回家</title>
     {% endif %}
+    <!-- 网页图标 -->
+    <link rel="icon" href="/static/img/icon.ico" type="image/x-icon">
+    <!-- 收藏图标 -->
+    <link rel="shortcut icon" href="/static/img/icon.ico" type="image/x-icon">
+
 
 </head>
+<style>
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+    }
+    
+    li {
+        float: left;
+    }
+    
+    li a, .dropbtn {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    
+    li a:hover, .dropdown:hover .dropbtn {
+        background-color: #111;
+    }
+    
+    .dropdown {
+        display: inline-block;
+    }
+    
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+    
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+    
+    .dropdown-content a:hover {background-color: #f1f1f1}
+    
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    </style>    
 <body>
     <script type="text/javascript" src="/static/js/background.js"></script>
+    <ul>
+        <li><a class="active" href="/index">主页</a></li>
+        <li><a href="/rents">租房</a></li>
+        <div class="dropdown">
+          <a href="#" class="dropbtn">点我点我</a>
+          <div class="dropdown-content">
+            <a href="/about">关于</a>
+            <a href="/joinin">加入</a>
+            <a href="/help">赞助</a>
+          </div>
+        </div>
+      </ul>
     {% block content %}
     {% endblock%}
     
