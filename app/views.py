@@ -4,9 +4,8 @@ from flask import render_template
 @app.route('/')
 @app.route('/index')
 
-
 def index():
     return render_template(
         'index.html',
-        title = '快乐星球'
+        title = '快点回家'
     )
