@@ -1,0 +1,21 @@
+<!-- 基准头文件 -->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    {% if title %}
+    <title>{{title}}</title>
+    {% else %}
+    <title>我的第一个前端code</title>
+    {% endif %}
+    
+
+</head>
+<body>
+    <script type="text/javascript" src="/static/js/background.js"></script>
+    {% block content %}
+    {% endblock%}
+    
+</body>
+
+</html>
