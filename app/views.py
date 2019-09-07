@@ -8,11 +8,11 @@ def index():
         'index.html'
     )
 
-@app.route('/rents')
-def rents():
+@app.route('/city')
+def city():
     return render_template(
-        "rents.html",
-        title = '快点回家'
+        "city.html",
+        title = '支持的城市列表'
     )
 
 @app.route('/about')
@@ -29,9 +29,9 @@ def help():
         title = '救救孩子吧...'
     )
 
-@app.route('/joinin')
-def joinin():
+@app.route('/rents')
+def rents():
     return render_template(
-        'joinin.html',
-        title = '少年我看你骨骼精奇...'
+        'rents.html',
+        title = '我在等你回家'
     )

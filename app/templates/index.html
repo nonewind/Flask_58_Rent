@@ -1,12 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-    .box{
-        width: 30px;
-        height: 40px;
+    .div1 {
+        color: black;
+        font-size: 30px;
+        margin-left: 50px;
+        margin-right: auto;
+        margin-top: 10%;
+        margin-bottom: auto;
+    }
+
+    .div2 {
+        font-size: 20px;
+        margin-left: 50px;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .div3 {
+        font-size: 25px;
+
     }
 </style>
-<div class="box">
-    <h1>主页<a href="/rents">租房</a></h1>
+
+<div class="div1">
+    <h1><b><a href="/rents">Be at home!</b></a></h1>
 </div>
+<div class="div2">
+    <p><b> > 地图选点 公交+地铁 选择你合适的租房地点 </b></p>
+    <p><b> > 基于Flask引擎 结合高德API 爬虫获取58租房的数据 </b></p>
+    <p><b> > 开源/免费 没有任何使用费用 </b></p>
+</div>
+
 {% endblock %}
