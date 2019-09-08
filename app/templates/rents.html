@@ -1,67 +1,91 @@
-{% extends "base_GD.html" %}
-{% block content %}
-
+{% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
-<div class="info">
-        <div class="input-item">
-          <div class="input-item-prepend">
-            <span class="input-item-text" style="width:8rem;">输入公司的位置</span>
-          </div>
-          <input id='tipinput' type="text">
+<div class="control-panel">
+    <div class="control-entry">
+        <label>选择工作地点：</label>
+        <div class="control-input">
+            <input id="work-location" type="text">
         </div>
     </div>
-
-
+</div>
 
 <!-- 加载地图JSAPI脚本 -->
-
-<script src="https://webapi.amap.com/maps?v=1.4.15&key=	55b45a0e36d15c12758b691362b82069"></script>
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=55b45a0e36d15c12758b691362b82069&plugin=AMap.Autocomplete"></script>
-<script type="text/javascript" src="/static/js/PlaceSearchRender.js"></script>
-<script type="text/javascript" src="/static/js/addToolbar.js"></script>
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=55b45a0e36d15c12758b691362b82069&plugin=AMap.PlaceSearch"></script>
-    
-
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=55b45a0e36d15c12758b691362b82069&&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete"></script>
+<script src="http://cache.amap.com/lbs/static/jquery.range.js"></script>
+<script src="http://cache.amap.com/lbs/static/jquery-1.9.1.js"></script>
+<script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
 <script>
     //创建地图
-    var map = new AMap.Map('container', {
-        resizeEnable: true, //是否监控地图容器尺寸变化
-        zoom:10, //初始化地图层级
-        center: [120.321892,36.069283] //初始化地图中心点
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        zoomEnable: true,
+        center: [120.321892, 36.069283],
+        zoom: 11
     });
 
-    // 地图加载完成提示
-   // 输入提示/浮动显示
-   var auto = new AMap.Autocomplete({
-        input: "tipinput"
+    var scale = new AMap.Scale();
+
+    map.addControl(scale);
+
+    var arrivalRange = new AMap.ArrivalRange();
+    var workAddress, workMarker;
+    var rentMarkerArray = [];
+    var polygonArray = [];
+    var amapTransfer;
+
+    var infoWindow = new AMap.InfoWindow({
+        offset: new AMap.Pixel(0, -30)
     });
 
-    var placeSearch = new AMap.PlaceSearch({
-      // city 指定搜索所在城市，支持传入格式有：城市名、citycode和adcode
-      city: '青岛'
-    })
+    var auto = new AMap.Autocomplete({
+        input: "work-location"
+    });
 
-    placeSearch.search(tipinput, function (status, result) {
-       // 查询成功时，result即对应匹配的POI信息
-       console.log(result)
-       var pois = result.poiList.pois;
-        for(var i = 0; i < pois.length; i++){
-            var poi = pois[0];
-            var marker = [];
-            marker[0] = new AMap.Marker({
-                position: poi.location,   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-                title: poi.name
-            });
-            // 将创建的点标记添加到已有的地图实例：
-            map.add(marker[0]);
-        }
-        map.setFitView();
+    AMap.event.addListener(auto, "select", workLocationSelected);
 
-    })
-    
+    function workLocationSelected(e) {
+        workAddress = e.poi.name;
+        loadWorkLocation();
+    }
+
+    function loadWorkMarker(x, y, locationName) {
+        workMarker = new AMap.Marker({
+            map: map,
+            title: locationName,
+            icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+            position: [x, y]
+
+        });
+    }
+
+    function delWorkLocation() {
+        if (polygonArray) map.remove(polygonArray);
+        if (workMarker) map.remove(workMarker);
+        polygonArray = [];
+    }
+
+    function delRentLocation() {
+        if (rentMarkerArray) map.remove(rentMarkerArray);
+        rentMarkerArray = [];
+    }
+
+    function loadWorkLocation() {
+        delWorkLocation();
+        var geocoder = new AMap.Geocoder({
+            city: "青岛",
+            radius: 1000
+        });
+
+        geocoder.getLocation(workAddress, function(status, result) {
+            if (status === "complete" && result.info === 'OK') {
+                var geocode = result.geocodes[0];
+                x = geocode.location.getLng();
+                y = geocode.location.getLat();
+                loadWorkMarker(x, y);
+                loadWorkRange(x, y, 60, "#3f67a5", vehicle);
+                map.setZoomAndCenter(12, [x, y]);
+            }
+        })
+    }
 </script>
-</script> 
-
-
-
 {% endblock %}

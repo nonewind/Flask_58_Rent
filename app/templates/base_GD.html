@@ -1,15 +1,17 @@
 <!-- 基于高德api-css的重定义-->
 <html>
-<hea<meta charset="utf-8">
+
+<head>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <!-- 网页图标 -->
-    <link rel="icon" href="/static/img/icon.ico" type="image/x-icon"/>
+    <link rel="icon" href="/static/img/icon.ico" type="image/x-icon" />
     <!-- 收藏图标 -->
-    <link rel="shortcut icon" href="/static/img/icon.ico" type="image/x-icon"/> 
-    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
-    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
-    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/AMap.PlaceSearchRender1120.css"/>
+    <link rel="shortcut icon" href="/static/img/icon.ico" type="image/x-icon" />
+    <link href="/static/css/style-GD.css" rel="stylesheet" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/jquery.range.css" />
     <!-- 侧边栏 -->
     {% if title %}
     <title>{{title}}</title>
@@ -17,16 +19,9 @@
     <title>快点回家</title>
     {% endif %}
 </head>
-<style>
-        html,
-        body,
-        #container {
-          width: 100%;
-          height: 100%;
-        }
-    </style>
+
 <body>
-    {% block content %}
-    {% endblock%}
+    {% block content %} {% endblock%}
 </body>
+
 </html>
