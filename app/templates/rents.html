@@ -1,14 +1,7 @@
-{% extends "base.html" %}
+{% extends "base_GD.html" %}
 {% block content %}
-<style>
-       html,
-        body,
-        #container {
-          width: 100%;
-          height: 98%;
-        }
-</style>
 <div id="container"></div>
+
 <!-- 加载地图JSAPI脚本 -->
 <script src="https://webapi.amap.com/maps?v=1.4.15&key=	55b45a0e36d15c12758b691362b82069"></script>
 <script>
@@ -18,6 +11,7 @@
         center: [120.321892,36.069283] //初始化地图中心点
     });
 </script> 
+
 
 
 {% endblock %}
