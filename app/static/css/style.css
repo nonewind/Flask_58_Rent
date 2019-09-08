@@ -1,4 +1,3 @@
-
 ul {
     list-style-type: none;
     margin: auto;
@@ -6,11 +5,13 @@ ul {
     overflow: hidden;
     background-color: rgba(17, 105, 105, 0.815);
 }
+
 li {
-    float:left;
+    float: left;
 }
 
-li a, .dropbtn {
+li a,
+.dropbtn {
     display: inline-block;
     color: rgb(0, 0, 0);
     text-align: center;
@@ -18,12 +19,13 @@ li a, .dropbtn {
     text-decoration: none;
 }
 
-li a:hover, .dropdown:hover .dropbtn {
-    background-color: #111;
+li a:hover,
+.dropdown:hover .dropbtn {
+    background-color: rgba(12, 204, 156, 0.377);
 }
 
 footer {
-    color: rgba(11, 161, 153, 0.267);
+    color: rgb(0, 0, 0);
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -32,6 +34,19 @@ footer {
 
 footer .footer-col {
     margin-bottom: 0px
+}
+
+a {
+    text-decoration: none;
+    color: brown;
+}
+
+a:link {
+    color: rgb(26, 165, 165);
+}
+
+a:hover {
+    color: teal;
 }
 
 .div1 {
@@ -53,16 +68,15 @@ footer .footer-col {
 
 .div3 {
     font-size: 25px;
-
 }
-.div10{
+
+.div10 {
     font-size: 20px;
     margin-left: 50px;
     margin-top: 200px;
 }
 
-
-.box{
+.box {
     font-size: 20px;
     margin-left: 50px;
     margin-top: 200px;
