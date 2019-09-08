@@ -1,11 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-    .box{
-        font-size: 50px;
-        font-style:initial;
-    }
+       html,
+        body,
+        #container {
+          width: 100%;
+          height: 98%;
+        }
 </style>
-<div class="box">
-<b ><center>正在开发中 耐心等待</b></center></div>
+<div id="container"></div>
+<!-- 加载地图JSAPI脚本 -->
+<script src="https://webapi.amap.com/maps?v=1.4.15&key=	55b45a0e36d15c12758b691362b82069"></script>
+<script>
+    var map = new AMap.Map('container', {
+        resizeEnable: true, //是否监控地图容器尺寸变化
+        zoom:11, //初始化地图层级
+        center: [120.321892,36.069283] //初始化地图中心点
+    });
+</script> 
+
+
 {% endblock %}
