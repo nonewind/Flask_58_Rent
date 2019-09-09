@@ -81,3 +81,15 @@ a:hover {
     margin-left: 50px;
     margin-top: 200px;
 }
+
+.zanzhu_ali {
+    position: absolute;
+    left: 1100px;
+    top: 150px;
+}
+
+.zanzhu_wei {
+    position: absolute;
+    left: 1100px;
+    top: 350px;
+}
