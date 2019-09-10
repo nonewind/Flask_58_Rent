@@ -1,14 +1,31 @@
 {% extends "base_GD.html" %} {% block content %}
+<ul>
+    <li><a class="active" href="/index"><b>主页</b></a></li>
+    <!-- 这里未来会添加上更多的城市和价格选项 -->
+
+    <div class="dropdown">
+        <a href="#" class="dropbtn"><b>价格区间</b></a>
+        <div class="div2"><img src="/static/img/PKS.jpeg"></div>
+
+        <div class="dropdown-content">
+            <b><a href="#">0  ~ 1K</a></b>
+            <b><a href="#">1K ~ 3K</a></b>
+            <b><a href="#">2K ~ 3K</a></b>
+        </div>
+    </div>
+</ul>
+<div class="pikashi">
+
+</div>
 <div id="container"></div>
 <div class="control-panel">
     <div class="control-entry">
-        <label>选择工作地点：</label>
+        <label><b>选择工作地点：</b></label>
         <div class="control-input">
             <input id="work-location" type="text">
         </div>
     </div>
 </div>
-
 <!-- 加载地图JSAPI脚本 -->
 <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=55b45a0e36d15c12758b691362b82069&&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete"></script>
 <script src="http://cache.amap.com/lbs/static/jquery.range.js"></script>
@@ -64,10 +81,7 @@
         polygonArray = [];
     }
 
-    function delRentLocation() {
-        if (rentMarkerArray) map.remove(rentMarkerArray);
-        rentMarkerArray = [];
-    }
+
 
     function loadWorkLocation() {
         delWorkLocation();
@@ -88,4 +102,5 @@
         })
     }
 </script>
+
 {% endblock %}
