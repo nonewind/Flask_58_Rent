@@ -2,37 +2,44 @@
 <ul>
     <li><a class="active" href="/index"><b>主页</b></a></li>
     <!-- 这里未来会添加上更多的城市和价格选项 -->
-
     <div class="dropdown">
         <a href="#" class="dropbtn"><b>价格区间</b></a>
-        <div class="div2"><img src="/static/img/PKS.jpeg"></div>
-
         <div class="dropdown-content">
-            <b><a href="#">0  ~ 1K</a></b>
-            <b><a href="#">1K ~ 3K</a></b>
-            <b><a href="#">2K ~ 3K</a></b>
+            <b><a href="{{ url_for('rents_test',name=0) }}">0 ~ 1K</a></b>
+            <b><a href="{{ url_for('rents_test',name=1) }}">1K ~ 3K</a></b>
+            <b><a href="{{ url_for('rents_test',name=2) }}">2K ~ 3K</a></b>
         </div>
     </div>
+    <div class="div2">
+        <a href="http://aj-hunter.xyz"></a><img src="/static/img/PKS.jpeg">
+    </div>
 </ul>
-<div class="pikashi">
-
-</div>
+<!-- 这里存放的是从数据库读取数据从操作 -->
 <div id="container"></div>
 <div class="control-panel">
     <div class="control-entry">
         <label><b>选择工作地点：</b></label>
         <div class="control-input">
-            <input id="work-location" type="text">
+            <input id="work-location" type="text" />
+            <!-- JS 调用入口 -->
         </div>
     </div>
 </div>
+<div class="control-panel-traffic">
+    <div class="control-entry-traffic">
+        <label><b>选择通勤方式:</b> </label>
+        <div class="control-input" />
+        <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" onChange="loadRentLocationByFile()" /> 公交+地铁
+        <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" checked/> 地铁
+    </div>
+</div>
+</div>
 <!-- 加载地图JSAPI脚本 -->
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=55b45a0e36d15c12758b691362b82069&&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete"></script>
-<script src="http://cache.amap.com/lbs/static/jquery.range.js"></script>
-<script src="http://cache.amap.com/lbs/static/jquery-1.9.1.js"></script>
-<script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+
 <script>
     //创建地图
+
+
     var map = new AMap.Map("container", {
         resizeEnable: true,
         zoomEnable: true,
@@ -45,6 +52,7 @@
     map.addControl(scale);
 
     var arrivalRange = new AMap.ArrivalRange();
+    var x, y, t, vehicle = "SUBWAY,BUS";
     var workAddress, workMarker;
     var rentMarkerArray = [];
     var polygonArray = [];
@@ -60,6 +68,16 @@
 
     AMap.event.addListener(auto, "select", workLocationSelected);
 
+    function takeBus(radio) {
+        vehicle = radio.value;
+        loadWorkLocation()
+    }
+
+    function takeSubway(radio) {
+        vehicle = radio.value;
+        loadWorkLocation()
+    }
+
     function workLocationSelected(e) {
         workAddress = e.poi.name;
         loadWorkLocation();
@@ -69,19 +87,19 @@
         workMarker = new AMap.Marker({
             map: map,
             title: locationName,
-            icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+            icon: '/static/img/ZZ.png',
             position: [x, y]
 
         });
     }
+
+
 
     function delWorkLocation() {
         if (polygonArray) map.remove(polygonArray);
         if (workMarker) map.remove(workMarker);
         polygonArray = [];
     }
-
-
 
     function loadWorkLocation() {
         delWorkLocation();
@@ -101,6 +119,108 @@
             }
         })
     }
+
+    function loadWorkRange(x, y, t, color, v) {
+        arrivalRange.search([x, y], t, function(status, result) {
+            if (result.bounds) {
+                for (var i = 0; i < result.bounds.length; i++) {
+                    var polygon = new AMap.Polygon({
+                        map: map,
+                        fillColor: color,
+                        fillOpacity: "0.4",
+                        strokeColor: color,
+                        strokeOpacity: "0.8",
+                        strokeWeight: 1
+                    });
+                    polygon.setPath(result.bounds[i]);
+                    polygonArray.push(polygon);
+                }
+            }
+        }, {
+            policy: v
+        });
+    }
+
+    function addMarkerByAddress(address) {
+        var geocoder = new AMap.Geocoder({
+            city: "青岛",
+            radius: 1000
+        });
+        geocoder.getLocation(address, function(status, result) {
+            if (status === "complete" && result.info === 'OK') {
+                var geocode = result.geocodes[0];
+                rentMarker = new AMap.Marker({
+                    map: map,
+                    title: address,
+                    icon: '/static/img/ZZ_1.png',
+                    position: [geocode.location.getLng(), geocode.location.getLat()]
+                });
+                rentMarkerArray.push(rentMarker);
+
+                rentMarker.content = "<div>房源：<a target = '_blank' href='https://bj.58.com/pinpaigongyu/?key=" + address + "'>" + address + "</a><div>"
+                rentMarker.on('click', function(e) {
+                    infoWindow.setContent(e.target.content);
+                    infoWindow.open(map, e.target.getPosition());
+                    if (amapTransfer) amapTransfer.clear();
+                    amapTransfer = new AMap.Transfer({
+                        map: map,
+                        policy: AMap.TransferPolicy.LEAST_TIME,
+                        city: "青岛市",
+                        panel: 'transfer-panel'
+                    });
+                    amapTransfer.search([{
+                        keyword: workAddress
+                    }, {
+                        keyword: address
+                    }], function(status, result) {})
+                });
+            }
+        })
+    }
+
+    function delWorkLocation() {
+        if (polygonArray) map.remove(polygonArray);
+        if (workMarker) map.remove(workMarker);
+        polygonArray = [];
+    }
+
+    function delRentLocation() {
+        if (rentMarkerArray) map.remove(rentMarkerArray);
+        rentMarkerArray = [];
+    }
+
+    function loadWorkLocation() {
+        delWorkLocation();
+        var geocoder = new AMap.Geocoder({
+            city: "青岛",
+            radius: 1000
+        });
+
+        geocoder.getLocation(workAddress, function(status, result) {
+            if (status === "complete" && result.info === 'OK') {
+                var geocode = result.geocodes[0];
+                x = geocode.location.getLng();
+                y = geocode.location.getLat();
+                loadWorkMarker(x, y);
+                loadWorkRange(x, y, 60, "#3f67a5", vehicle);
+                map.setZoomAndCenter(12, [x, y]);
+            }
+        })
+    }
+
+
+
+
+    function loadRentLocationByFile() {
+        delRentLocation();
+        var rent_location = "{{name|safe}}"; {
+            rent_locations = rent_location.split(",")
+            for (var j = 0, len = rent_locations.length; j < len; j++) {
+                addMarkerByAddress(rent_locations[j]);
+            };
+
+        };
+    };
 </script>
 
 {% endblock %}

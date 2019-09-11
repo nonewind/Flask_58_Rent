@@ -9,12 +9,16 @@
     <link rel="icon" href="/static/img/icon.ico" type="image/x-icon" />
     <!-- 收藏图标 -->
     <link rel="shortcut icon" href="/static/img/icon.ico" type="image/x-icon" />
+
+    <!--引入文件 -->
+    <link href="/static/css/jquery.range.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/style-GD.css" rel="stylesheet" type="text/css" />
     <link href="/static/css/main1119.css" rel="stylesheet" type="text/css" />
-    <link href="/static/css/jquery.range.css" rel="stylesheet" type="text/css" />
-
-
-    <!-- 侧边栏 -->
+    <script src="http://cache.amap.com/lbs/static/jquery.range.js"></script>
+    <script src="http://cache.amap.com/lbs/static/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=55b45a0e36d15c12758b691362b82069&&plugin=AMap.ArrivalRange,AMap.Scale,AMap.Geocoder,AMap.Transfer,AMap.Autocomplete"></script>
+    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <!--我们的目标是星辰大海 -->
     {% if title %}
     <title>{{title}}</title>
     {% else %}

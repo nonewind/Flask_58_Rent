@@ -91,6 +91,6 @@ a:hover {
 }
 
 .zanzhu_wei {
-    position: relative;
+    position: absolute;
     left: 1100px;
 }
