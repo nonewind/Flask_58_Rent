@@ -157,7 +157,7 @@
                 });
                 rentMarkerArray.push(rentMarker);
 
-                rentMarker.content = "<div>房源：<a target = '_blank' href='https://qd.58.com/chuzu/?key=" + address + "'>" + address + "</a><div>"
+                rentMarker.content = "<div>房源：<a target = '_blank' href='https://qd.58.com/chuzu/0/b3/?key=" + address + "'>" + address + "</a><div>"
                 rentMarker.on('click', function(e) {
                     infoWindow.setContent(e.target.content);
                     infoWindow.open(map, e.target.getPosition());
