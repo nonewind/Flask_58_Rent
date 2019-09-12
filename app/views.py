@@ -2,7 +2,7 @@ from app import app
 from flask import render_template,jsonify
 import sqlite3
 
-DATABASE = 'D:\CODE/flask_text/app.db'
+DATABASE = 'D:\CODE/flask_text/data_loc.db'
 
 @app.route('/')
 @app.route('/index')
@@ -42,7 +42,7 @@ def rents():
 def rents_test(name):
     sqlite3DB = sqlite3.connect(DATABASE)
     if name == '0':
-        cur = sqlite3DB.execute("select QingDao_00 from Location")
+        cur = sqlite3DB.execute("select * from QingDao_0")
         curss = cur.fetchall()
     else:
         return '数据库报错?????'
