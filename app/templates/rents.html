@@ -1,4 +1,6 @@
 {% extends "base_GD.html" %} {% block content %}
+<div id="container"></div>
+<!-- 导航栏 -->
 <ul>
     <li><a class="active" href="/index"><b>主页</b></a></li>
     <!-- 这里未来会添加上更多的城市和价格选项 -->
@@ -6,7 +8,7 @@
         <a href="#" class="dropbtn"><b>价格区间</b></a>
         <div class="dropdown-content">
             <b><a href="{{ url_for('rents_test',name=0) }}">0 ~ 1K</a></b>
-            <b><a href="{{ url_for('rents_test',name=1) }}">1K ~ 3K</a></b>
+            <b><a href="{{ url_for('rents_test',name=1) }}">1K ~ 2K</a></b>
             <b><a href="{{ url_for('rents_test',name=2) }}">2K ~ 3K</a></b>
         </div>
     </div>
@@ -14,8 +16,8 @@
         <a href="http://aj-hunter.xyz"></a><img src="/static/img/PKS.jpeg">
     </div>
 </ul>
+<!-- 导航栏结束 -->
 <!-- 这里存放的是从数据库读取数据从操作 -->
-<div id="container"></div>
 <div class="control-panel">
     <div class="control-entry">
         <label><b>选择工作地点：</b></label>
@@ -38,8 +40,6 @@
 
 <script>
     //创建地图
-
-
     var map = new AMap.Map("container", {
         resizeEnable: true,
         zoomEnable: true,

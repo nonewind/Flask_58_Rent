@@ -11,20 +11,6 @@ def index():
         'index.html'
     )
 
-@app.route('/city')
-def city():
-    return render_template(
-        "city.html",
-        title = '支持的城市列表'
-    )
-
-@app.route('/about')
-def about():
-    return render_template(
-        "About.html",
-        title = '嘿嘿嘿...其实我是...'
-    )
-
 @app.route('/help')
 def help():
     return render_template(
@@ -44,9 +30,14 @@ def rents_test(name):
     if name == '0':
         cur = sqlite3DB.execute("select * from QingDao_0")
         curss = cur.fetchall()
+    elif name == '1':
+        cur = sqlite3DB.execute("select * from QingDao_1")
+        curss = cur.fetchall()
+    elif name == '2':
+        cur = sqlite3DB.execute("select * from QingDao_2")
+        curss = cur.fetchall()
     else:
-        return '数据库报错?????'
-
+        return "The Page 404 ! "    
     sqlite3DB.close()
     curss_list = ''
     for i in curss:
