@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 
 def Sqlite_W(bx, list_loc):
-    DBDATA = 'D:\CODE/flask_text/data_loc.db'
+    DBDATA = '/www/wwwroot/yourwebsite/data_loc.db'
     connect = sqlite3.connect(DBDATA)
     sql_cc = connect.cursor()
     if bx == 2:
@@ -62,7 +62,7 @@ def req_get(url):
 
 
 def contral():
-    DBDATA = 'D:\CODE/flask_text/data_loc.db'
+    DBDATA = '/www/wwwroot/yourwebsite/data_loc.db'
     bx = 2
     while bx <= 4:
         connect = sqlite3.connect(DBDATA)

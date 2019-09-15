@@ -2,7 +2,7 @@ from app import app
 from flask import render_template,jsonify
 import sqlite3
 
-DATABASE = 'D:\CODE/flask_text/data_loc.db'
+DATABASE = '/www/wwwroot/yourwebsite/data_loc.db'
 
 @app.route('/')
 @app.route('/index')
