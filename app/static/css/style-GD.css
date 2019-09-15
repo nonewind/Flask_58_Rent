@@ -13,8 +13,9 @@ body,
 
 .control-panel-traffic {
     position: absolute;
-    top: 5px;
+    top: 4px;
     left: 500px;
+    width: 500px;
 }
 
 .control-entry {
@@ -29,7 +30,7 @@ body,
 }
 
 .control-entry-traffic {
-    width: 280px;
+    width: 300px;
     background-color: #333;
     font-family: fantasy, sans-serif;
     text-align: left;
