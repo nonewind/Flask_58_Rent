@@ -52,6 +52,11 @@ stats = 127.0.0.1:9191
 ``` 
 uwsgi config.ini
 ```
+##### 修改../app/views.py 中的对接地址
+```
+DATABASE = '/www/wwwroot/yourwebsite/data_loc.db'
+```
+- 将yourwebsite 改成你的网站
 ##### 至此，此项目应该可以运行
 
 
