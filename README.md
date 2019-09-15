@@ -7,8 +7,8 @@
  - Ubuntu/Deepin ： wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh && sudo bash install.sh
  - Debian ： wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh && bash install.sh
 ##### 宝塔内创建新网站
-- ![Image text](../img/web.png)
-- ![Image text](../img/web_1.pbg)
+- ![Image text](https://github.com/nonewind/Flask_58_Rent/blob/master/img/web.png)
+- ![Image text](https://github.com/nonewind/Flask_58_Rent/blob/master/img/web_1.png)
 - 根据你的设置 修改如下配置并填写
 ```
 server {
