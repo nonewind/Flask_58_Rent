@@ -31,8 +31,8 @@
     <div class="control-entry-traffic">
         <label><b>选择通勤方式:</b> </label>
         <div class="control-input" />
-        <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" onChange="loadRentLocationByFile()" /> 公交+地铁
-        <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" onChange="loadRentLocationByFile()" checked/> 地铁
+        <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" /> 公交+地铁
+        <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" checked/> 地铁
     </div>
 </div>
 </div>
@@ -40,6 +40,7 @@
 
 <script>
     //创建地图
+    window.load = loadRentLocationByFile()
     var map = new AMap.Map("container", {
         resizeEnable: true,
         zoomEnable: true,
@@ -157,7 +158,7 @@
                 });
                 rentMarkerArray.push(rentMarker);
 
-                rentMarker.content = "<div>房源：<a target = '_blank' href='https://qd.58.com/chuzu/0/b3/?key=" + address + "'>" + address + "</a><div>"
+                rentMarker.content = "<div>房源：<a target = '_blank' href='https://qd.58.com/chuzu/0/b{{page}}/?key=" + address + "'>" + address + "</a><div>"
                 rentMarker.on('click', function(e) {
                     infoWindow.setContent(e.target.content);
                     infoWindow.open(map, e.target.getPosition());
