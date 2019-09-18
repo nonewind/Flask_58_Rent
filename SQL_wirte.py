@@ -71,8 +71,6 @@ def contral():
         sql_cc.execute(sql)
         connect.commit()
         sql_cc.close()
-
-
         page_number = 0
         bool_url = True
         while bool_url:
@@ -82,6 +80,7 @@ def contral():
             else:
                 url = 'https://m.58.com/qd/zufang/0/b{}/pn{}'.format(
                     bx, page_number)
+            
             list_loc = req_get(url)
             if list_loc:
                 Sqlite_W(bx, list_loc)
