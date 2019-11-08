@@ -3,7 +3,7 @@ from flask import render_template, jsonify
 import sqlite3
 
 
-DATABASE = '/www/wwwroot/map.ziheng.xyz/db_loc.db'
+DATABASE = 'D:\CODE\Flask_58_Rent\data_loc.db'
 
 
 @app.route('/')
