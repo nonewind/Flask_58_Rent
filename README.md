@@ -7,11 +7,10 @@
 - [x] 爬虫部分的重写 改用mongo
 ### 部署教程
 **租房子一直是难题，所以我就写了一个租房数据可视化的前端。基本上都是东拼西凑出来的东西。本来打算是将这个项目做大的，可是后来不想做了，于是就这样了。我会在后面说清楚如何更改你的地址。**
-声明：本项目中的，关于高德API和部分JS代码来自于[实验楼](https://www.shiyanlou.com/)
+声明：本项目中的，关于高德API和部分JS代码来自于[实验楼](https://www.lanqiao.cn/courses/599)
 
 
-github项目地址：https://github.com/nonewind/Flask_58_Rent
-Flask超级小白教程：http://www.pythondoc.com/flask-mega-tutorial/index.html 基本就是手把手的教
+- Flask超级小白教程：http://www.pythondoc.com/flask-mega-tutorial/index.html
 
 
 ## 准备阶段
