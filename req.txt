@@ -23,7 +23,7 @@ sqlalchemy-migrate==0.12.0
 sqlparse==0.3.0
 Tempita==0.5.2
 urllib3==1.25.3
-uWSGI==2.0.18
 Werkzeug==0.15.6
 Whoosh==2.7.4
 WTForms==2.2.1
+uWSGI==2.0.18
