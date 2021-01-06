@@ -14,12 +14,16 @@ def index():
     )
 
 
-
 @app.route('/rents')
 def rents():
     return render_template(
         'rents.html'
     )
+
+
+@app.route("/more")
+def more():
+    return ("页面正在建设中")
 
 
 @app.route('/rents/<name>', methods=['GET'])
@@ -47,5 +51,5 @@ def rents_test(name):
     return render_template(
         'rents.html',
         name=curss_list,
-        page = page_number
+        page=page_number
     )
