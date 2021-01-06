@@ -14,13 +14,6 @@ def index():
     )
 
 
-@app.route('/help')
-def help():
-    return render_template(
-        'help.html',
-        title='救救孩子吧...'
-    )
-
 
 @app.route('/rents')
 def rents():

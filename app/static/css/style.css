@@ -35,19 +35,6 @@ a:hover {
     border-color: transparent transparent #000000 transparent;
 }
 
-.bqb {
-    position: absolute;
-    z-index: 1;
-    top: 190px;
-    left: 300px;
-}
-
-.bqb_money {
-    position: absolute;
-    z-index: 1;
-    top: 600px;
-    right: 300px;
-}
 
 .div1 {
     position: absolute;
@@ -132,12 +119,6 @@ a:hover {
 
 .divgit img:hover {
     transform: scale(1.6);
-}
-
-.div_ss {
-    position: absolute;
-    top: 1100px;
-    right: 0px;
 }
 
 footer {
