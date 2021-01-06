@@ -1,7 +1,7 @@
 {% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
 <!-- 导航栏 -->
-<ul>
+<ul class="navigation">
     <li><a class="active" href="/index"><b>主页</b></a></li>
     <!-- 这里未来会添加上更多的城市和价格选项 -->
     <div class="dropdown">
@@ -28,11 +28,12 @@
     </div>
 </div>
 <div class="control-panel-traffic">
-    <div class="control-entry-traffic">
+    <div class="control-entry-traffic" style="width:350px">
         <label><b>选择通勤方式:</b> </label>
         <div class="control-input" />
         <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" /> 公交+地铁
         <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" checked/> 地铁
+        <input type="button" name="vehicle" value="搜索" class="btn" onClick="searchtraffic()" checked/>
     </div>
 </div>
 </div>
@@ -71,14 +72,19 @@
 
     function takeBus(radio) {
         vehicle = radio.value;
-        loadWorkLocation()
+        // loadWorkLocation()
     }
 
     function takeSubway(radio) {
         vehicle = radio.value;
-        loadWorkLocation()
+        // loadWorkLocation()
     }
 
+    function searchtraffic(){
+        workAddress = document.getElementById("work-location").value;
+        debugger
+        loadWorkLocation()
+    }
     function workLocationSelected(e) {
         workAddress = e.poi.name;
         loadWorkLocation();
@@ -108,7 +114,7 @@
             city: "青岛",
             radius: 1000
         });
-
+        console.log(vehicle,"vehicle")
         geocoder.getLocation(workAddress, function(status, result) {
             if (status === "complete" && result.info === 'OK') {
                 var geocode = result.geocodes[0];
@@ -223,5 +229,13 @@
         };
     };
 </script>
-
+<style>
+    .navigation{
+        background-color: cadetblue;
+    }
+    .btn{
+        border:none;
+        margin-left:2px;
+    }
+</style>
 {% endblock %}
