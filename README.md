@@ -5,10 +5,10 @@
 ### Demo展示
 - 首页
 
-![img](https://backip-1259049233.cos.ap-nanjing.myqcloud.com/TC/index_demo_push.png)
+![img](/img/index_demo.png)
 
 - 租房页面
-![img](https://backip-1259049233.cos.ap-nanjing.myqcloud.com/TC/Index_demo_1.gif)
+![img](/img/Index_demo_1.gif)
 ## **注意 该项目现在在重构 部分代码已经删除 会慢慢更新上来**
 - [x] 复写前端 找大佬帮我改前端
 - [x] 爬虫部分的重写 改用mongo
