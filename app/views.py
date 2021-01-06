@@ -23,7 +23,9 @@ def rents():
 
 @app.route("/more")
 def more():
-    return ("页面正在建设中")
+    return render_template(
+        'more.html'
+    )
 
 
 @app.route('/rents/<name>', methods=['GET'])

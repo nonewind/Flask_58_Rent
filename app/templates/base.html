@@ -9,15 +9,13 @@
     <link rel="icon" href="/static/img/icon.ico" type="image/x-icon">
     <!-- 收藏图标 -->
     <link rel="shortcut icon" href="/static/img/icon.ico" type="image/x-icon">
-    <link href="/static/css/style.css" rel="stylesheet" type="text/css" charset="utf-8" /> {% if title %}
-    <title>{{title}}</title>
-    {% else %}
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css" charset="utf-8" />
+    <link href="/static/css/style-more.css" rel="stylesheet" type="text/css" charset="utf-8" />
     <title>快点回家</title>
-    {% endif %}
+
 </head>
 
 <body>
-    <!--<script type="text/javascript" src="/static/js/background.js"></script>-->
     {% block content %} {% endblock%}
 </body>
 
