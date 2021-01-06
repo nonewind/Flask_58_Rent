@@ -1,6 +1,6 @@
-body{
-   height: 90%;
-   margin: 0;
+body {
+    height: 90%;
+    margin: 0;
 }
 
 a {
@@ -35,7 +35,7 @@ a:hover {
     font-size: 40px;
     z-index: 999999;
     left: 70px;
-    top:10px;
+    top: 10px;
 }
 
 .div2 {
@@ -58,7 +58,8 @@ a:hover {
     font-size: 25px;
     color: rgb(61, 6, 4);
 }
-.div_about h3 p{
+
+.div_about h3 p {
     font-size: 18px;
 }
 
@@ -105,6 +106,7 @@ a:hover {
 
 footer {
     position: relative;
-    margin: auto;
-    color: rgb(5, 121, 141);
+    margin-top: 50%;
+    margin-bottom: 1px;
+    color: #000000;
 }

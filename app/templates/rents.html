@@ -32,8 +32,8 @@
         <label><b>选择通勤方式:</b> </label>
         <div class="control-input" />
         <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" /> 公交+地铁
-        <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" checked/> 地铁
-        <input type="button" name="vehicle" value="搜索" class="btn" onClick="searchtraffic()" checked/>
+        <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" checked /> 地铁
+        <input type="button" name="vehicle" value="搜索" class="btn" onClick="searchtraffic()" checked />
     </div>
 </div>
 </div>
@@ -45,7 +45,6 @@
     var map = new AMap.Map("container", {
         resizeEnable: true,
         zoomEnable: true,
-        center: [120.321892, 36.069283],
         zoom: 11
     });
 
@@ -80,10 +79,11 @@
         // loadWorkLocation()
     }
 
-    function searchtraffic(){
+    function searchtraffic() {
         workAddress = document.getElementById("work-location").value;
         loadWorkLocation()
     }
+
     function workLocationSelected(e) {
         workAddress = e.poi.name;
         loadWorkLocation();
@@ -110,11 +110,10 @@
     function loadWorkLocation() {
         delWorkLocation();
         var geocoder = new AMap.Geocoder({
-            city: "青岛",
             radius: 1000
         });
-        console.log(vehicle,"vehicle")
-        geocoder.getLocation(workAddress, function(status, result) {
+        console.log(vehicle, "vehicle")
+        geocoder.getLocation(workAddress, function (status, result) {
             if (status === "complete" && result.info === 'OK') {
                 var geocode = result.geocodes[0];
                 x = geocode.location.getLng();
@@ -127,7 +126,7 @@
     }
 
     function loadWorkRange(x, y, t, color, v) {
-        arrivalRange.search([x, y], t, function(status, result) {
+        arrivalRange.search([x, y], t, function (status, result) {
             if (result.bounds) {
                 for (var i = 0; i < result.bounds.length; i++) {
                     var polygon = new AMap.Polygon({
@@ -149,10 +148,9 @@
 
     function addMarkerByAddress(address) {
         var geocoder = new AMap.Geocoder({
-            city: "青岛",
             radius: 1000
         });
-        geocoder.getLocation(address, function(status, result) {
+        geocoder.getLocation(address, function (status, result) {
             if (status === "complete" && result.info === 'OK') {
                 var geocode = result.geocodes[0];
                 rentMarker = new AMap.Marker({
@@ -163,22 +161,23 @@
                 });
                 rentMarkerArray.push(rentMarker);
 
-                rentMarker.content = "<div>房源：<a target = '_blank' href='https://qd.58.com/chuzu/0/b{{page}}/?key=" + address + "'>" + address + "</a><div>"
-                rentMarker.on('click', function(e) {
+                rentMarker.content =
+                    "<div>房源：<a target = '_blank' href='https://58.com/chuzu/0/b{{page}}/?key=" + address +
+                    "'>" + address + "</a><div>"
+                rentMarker.on('click', function (e) {
                     infoWindow.setContent(e.target.content);
                     infoWindow.open(map, e.target.getPosition());
                     if (amapTransfer) amapTransfer.clear();
                     amapTransfer = new AMap.Transfer({
                         map: map,
                         policy: AMap.TransferPolicy.LEAST_TIME,
-                        city: "青岛市",
                         panel: 'transfer-panel'
                     });
                     amapTransfer.search([{
                         keyword: workAddress
                     }, {
                         keyword: address
-                    }], function(status, result) {})
+                    }], function (status, result) {})
                 });
             }
         })
@@ -198,11 +197,10 @@
     function loadWorkLocation() {
         delWorkLocation();
         var geocoder = new AMap.Geocoder({
-            city: "青岛",
             radius: 1000
         });
 
-        geocoder.getLocation(workAddress, function(status, result) {
+        geocoder.getLocation(workAddress, function (status, result) {
             if (status === "complete" && result.info === 'OK') {
                 var geocode = result.geocodes[0];
                 x = geocode.location.getLng();
@@ -229,12 +227,13 @@
     };
 </script>
 <style>
-    .navigation{
+    .navigation {
         background-color: cadetblue;
     }
-    .btn{
-        border:none;
-        margin-left:2px;
+
+    .btn {
+        border: none;
+        margin-left: 2px;
     }
 </style>
 {% endblock %}
