@@ -1,3 +1,8 @@
+body{
+   height: 90%;
+   margin: 0;
+}
+
 a {
     text-decoration: none;
     color: rgb(27, 184, 171);
@@ -12,10 +17,10 @@ a:hover {
 }
 
 .bg_1 {
-    position: absolute;
+    position: relative;
     z-index: -1;
-    top: 0px;
-    left: 0px;
+    top: -10px;
+    left: -10px;
     width: 0;
     height: 0;
     border-style: solid;
@@ -23,38 +28,22 @@ a:hover {
     border-color: transparent transparent transparent #000000;
 }
 
-.bg_2 {
-    position: absolute;
-    z-index: -1;
-    top: 1000px;
-    right: 0px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 0 200px 800px;
-    border-color: transparent transparent #000000 transparent;
-}
 
 
 .div1 {
-    position: absolute;
-    font-size: 30px;
-    z-index: 999;
-    top: 50px;
+    position: fixed;
+    font-size: 40px;
+    z-index: 999999;
     left: 70px;
+    top:10px;
 }
 
 .div2 {
     position: absolute;
-    font-size: 20px;
-    margin-left: 50px;
+    font-size: 30px;
     z-index: 999;
-    right: 70px;
-    top: 300px;
-}
-
-.div3 {
-    font-size: 25px;
+    top: 400px;
+    left: 70px;
 }
 
 .div_about {
@@ -66,8 +55,11 @@ a:hover {
 }
 
 .div_about h3 {
-    font-size: 22px;
+    font-size: 25px;
     color: rgb(61, 6, 4);
+}
+.div_about h3 p{
+    font-size: 18px;
 }
 
 .box {
@@ -76,16 +68,6 @@ a:hover {
     margin-top: 200px;
 }
 
-.zanzhu_ali {
-    position: absolute;
-    left: 1100px;
-    top: 150px;
-}
-
-.zanzhu_wei {
-    position: absolute;
-    left: 1100px;
-}
 
 .divblog {
     position: absolute;
@@ -122,15 +104,7 @@ a:hover {
 }
 
 footer {
-    position: absolute;
-    top: 1050px;
-    right: 100px;
-    width: 500px;
-    height: 50px;
+    position: relative;
+    margin: auto;
     color: rgb(5, 121, 141);
-    transform: rotate(-14deg);
-    -ms-transform: rotate(-14deg);
-    -moz-transform: rotate(-14deg);
-    -webkit-transform: rotate(-14deg);
-    -o-transform: rotate(-14deg);
 }
