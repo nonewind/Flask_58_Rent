@@ -17,7 +17,8 @@
 声明：本项目中的，关于高德API和部分JS代码来自于[蓝桥云课](https://www.lanqiao.cn/courses/599)
 
 
-- Flask超级小白教程：http://www.pythondoc.com/flask-mega-tutorial/index.html
+- Flask超级小白教程:http://www.pythondoc.com/flask-mega-tutorial/index.html
+- 云部署 Flask + WSGI + Nginx 详解:https://www.cnblogs.com/Ray-liang/p/4173923.html
 
 
 ## 准备阶段
