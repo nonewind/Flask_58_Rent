@@ -27,7 +27,8 @@
 ## 代码准备
 ### 生产环境
 - 首先安装宝塔，具体安装命令-百度使用 nginx部署
-- 添加一个新的站点 注意域名解析 
+- 添加一个新的站点 注意域名解析
+![img](/img/web.png)
 - 进入到刚才添加的站点的目录 在服务器上克隆我的项目源码/或者使用项目发布包 
 ```
 # git clone https://github.com/nonewind/Flask_58_Rent.git
@@ -53,6 +54,7 @@ server {
   }
 }
 ```
+![img](/img/web_1.png)
 在网站根目录下新建一个config.ini
 ```
 [uwsgi]  
