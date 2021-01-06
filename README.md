@@ -59,7 +59,7 @@ threads = 2  #状态检测地址，注意服务器提供商和宝塔的端口放
 ```
 - 安装依赖
 ```
-venv_name/bin/pip install -r req.txt
+venv_name/bin/pip install -r requirements.txt
 ```
 - 启动项目并记录网站日志
 ```
@@ -80,7 +80,7 @@ python -m venv venv_name
 ```
 - 安装相关依赖
 ```
-venv_name/Scripts/pip install -r req.txt
+venv_name/Scripts/pip install -r requirements.txt
 ```
 - 启动
 ```
@@ -92,34 +92,16 @@ venv_name/Scripts/python run.py
 http://127.0.0.1:5000
 ```
 
-## 修改项目中的地图地址and爬虫地址and数据库文件的生成、修改
+## 需要自己修改的部分
 ### 地图修改
 - /app/templates/rents.html
 ```
 center: [120.321892, 36.069283] //自行百度你的城市所在的中心点　并更换
 city: "青岛"　//自行更换你所在的城市　有好几处
 ```
-### 数据库生成/修改
-- /app/models.py
-```
-from app import db
 
-class Qingdao_0(db.Model):
-    loc = db.Column(db.String(128),index =　True,nullable=True,primary_key = True) #青岛0~500 元 demo
-class Qingdao_1(db.Model):
-    loc = db.Column(db.String(128),index = True,nullable=True,primary_key = True) #青岛0~500 元 demo
-class Qingdao_2(db.Model):
-    loc = db.Column(db.String(128),index = True,nullable=True,primary_key = True) #青岛0~500 元 demo
-
-    def __repr__(self)：
-        return '<qingdao_0 %r >' % (self.loc)
-```
-修改其中的　Qingdao_0/1/2 分别对应　０～１ｋ;１ｋ～１．５ｋ；１．５ｋ～２ｋ
-
-然后运行，生成你自己的数据库文件
+### 数据库修改
+- 默认数据库由原先的`sqlite`改为了现在的`mongoDB`
 
 ### 爬虫修改
-- sql_write.py
-将其中对应上部分的Qingdao_0/1/3修改成你刚生成的数据表
-将DATABASE 这个path参数修改成你的绝对目录地址
 
