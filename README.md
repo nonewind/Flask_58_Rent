@@ -2,6 +2,13 @@
 - 基于高德API  之前看到实验楼有一个实验说的就是如何结合爬虫和高德API 我觉得很有意思 于是就想顺着这个思路做下去 其中部分关于API的部分是借鉴其实验
 - 爬虫爬取数据对接数据库  取数据到页面标点 并提供相应的组合网址进行跳转
 
+### Demo展示
+- 首页
+
+![img](https://backip-1259049233.cos.ap-nanjing.myqcloud.com/TC/index_demo_push.png)
+
+- 租房页面
+![img](https://backip-1259049233.cos.ap-nanjing.myqcloud.com/TC/Index_demo_1.gif)
 ## **注意 该项目现在在重构 部分代码已经删除 会慢慢更新上来**
 - [x] 复写前端 找大佬帮我改前端
 - [x] 爬虫部分的重写 改用mongo
