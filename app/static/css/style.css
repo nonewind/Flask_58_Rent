@@ -1,12 +1,14 @@
 body {
     height: 80%;
     margin: 0;
+    z-index: 1;
+    background-color:#bacac6;
 }
 video{
     position:fixed;
     top:0;
     left: 0;
-    z-index: -9999;
+    z-index: -99999999999999999999999999;
     width: 100%;
 }
 a {
@@ -33,7 +35,6 @@ a:hover {
     border-width: 0px 0 200px 720px;
     border-color: transparent transparent transparent #000000;
 }
-
 
 
 .div1 {

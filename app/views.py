@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template
+from flask import render_template,request
 import sqlite3
 
 
@@ -58,4 +58,18 @@ def rents_test(name):
 
 @app.route('/getCityList',methods=['GET'])
 def getCityList():
-    return(str(['上海','广东','深圳','重庆']))
+    #要求只返回十个
+    return(str(['上海','广东','深圳','重庆','广东','深圳','重庆','广东','深圳','重庆','...']))
+
+@app.route("/seachCity",methods=['GET'])
+def seachCity():
+    WananCity = request.args.get("city")
+    """
+    查询数据库
+    返回是否已经支持
+    """
+    return(WananCity)
+
+@app.route("/appendCity",methods=['GET'])
+def appendCity():
+    pass
