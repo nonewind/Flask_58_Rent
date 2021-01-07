@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template,request
+from flask import render_template, request
 import sqlite3
 
 
@@ -28,17 +28,15 @@ def more():
     )
 
 
-@app.route("/rentsData",methods=['POST'])
+@app.route("/rentsData", methods=['POST'])
 def rentsData():
+    cityname = request.args.get("city")
+    price_level = request.args.get("level")
+    print(cityname, price_level)
     return('{"xx":"台柳路附近，照片实图精装朝南主卧独卫特价出租免中介  "}')
 
 
-@app.route('/getCityList',methods=['GET'])
-def getCityList():
-    #要求只返回十个
-    return(str(['上海','广东','深圳','重庆','广东','深圳','重庆','广东','深圳','重庆','...']))
-
-@app.route("/seachCity",methods=['GET'])
+@app.route("/seachCity", methods=['GET'])
 def seachCity():
     WananCity = request.args.get("city")
     """
@@ -47,7 +45,8 @@ def seachCity():
     """
     return(WananCity)
 
-@app.route("/appendCity",methods=['GET'])
+
+@app.route("/appendCity", methods=['GET'])
 def appendCity():
     city = request.args.get("city")
     """

@@ -7,9 +7,9 @@
     <div class="dropdown">
         <a href="#" class="dropbtn"><b>价格区间</b></a>
         <div class="dropdown-content">
-            <p onclick="getJson()" id="price_0" value="0"><b>1K以下</b></p>
-            <b><a href="">1K至3K</a></b>
-            <b><a href="">3k以上</a></b>
+            <p onclick="getJson_0()" id="price_0"><b>1K以下</b></p>
+            <p onclick="getJson_1()" id="price_0"><b>1K~2K</b></p>
+            <p onclick="getJson_2()" id="price_0"><b>2K以上</b></p>
         </div>
     </div>
     <div class="div2">
@@ -206,30 +206,67 @@
         };
     };
 
-    function getJson() {
+    function getJson_1() {
         if (window.city_name == "" || window.city_name == undefined) {
             alert("请选择工作地点")
         } else {
             city = window.city_name
-            var price_lev = window.document.getElementById("price_0").innerHTML.replace("<b>", "").replace("</b>", "")
-            if (price_lev == "1K以下") {
-                $.ajax({
-                    type: "post",
-                    url: "rentsData?&city=" + city + "&level=" + price_lev,
-                    complete: function (response) {
-                        if (response.status == 200) {
-                            return_data = JSON.parse(response.responseText);
-                            loadRentLocationByFile(return_data['xx'])
-                        } else {
-                            alert("数据请求失败 请刷新后重试")
-                        }
+            price_level_post = 0
+            $.ajax({
+                type: "post",
+                url: "rentsData?&city=" + city + "&level=" + price_level_post,
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText);
+                        loadRentLocationByFile(return_data['xx'])
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
                     }
-                })
-            } else if (price_lev == "1K至3K") {} else {
-
-            }
+                }
+            })
         }
+    }
 
+    function getJson_1() {
+        if (window.city_name == "" || window.city_name == undefined) {
+            alert("请选择工作地点")
+        } else {
+            city = window.city_name
+            price_level_post = 1
+            $.ajax({
+                type: "post",
+                url: "rentsData?&city=" + city + "&level=" + price_level_post,
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText);
+                        loadRentLocationByFile(return_data['xx'])
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
+                    }
+                }
+            })
+        }
+    }
+
+    function getJson_2(){
+        if (window.city_name == "" || window.city_name == undefined) {
+            alert("请选择工作地点")
+        } else {
+            city = window.city_name
+            price_level_post = 2
+            $.ajax({
+                type: "post",
+                url: "rentsData?&city=" + city + "&level=" + price_level_post,
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText);
+                        loadRentLocationByFile(return_data['xx'])
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
+                    }
+                }
+            })
+        }
     }
 </script>
 <style>
