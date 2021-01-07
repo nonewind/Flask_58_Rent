@@ -7,9 +7,9 @@
     <div class="dropdown">
         <a href="#" class="dropbtn"><b>价格区间</b></a>
         <div class="dropdown-content">
-            <b><a href="{{ url_for('rents_test',name=0) }}">0 ~ 1K</a></b>
-            <b><a href="{{ url_for('rents_test',name=1) }}">1K ~ 2K</a></b>
-            <b><a href="{{ url_for('rents_test',name=2) }}">2K ~ 3K</a></b>
+            <p onclick="getJson()" id="price_0" value="0"><b>1K以下</b></p>
+            <b><a href="">1K至3K</a></b>
+            <b><a href="">3k以上</a></b>
         </div>
     </div>
     <div class="div2">
@@ -41,7 +41,7 @@
 
 <script>
     //创建地图
-    window.load = loadRentLocationByFile()
+    //window.load = loadRentLocationByFile()
     var map = new AMap.Map("container", {
         resizeEnable: true,
         zoomEnable: true,
@@ -95,7 +95,6 @@
             title: locationName,
             icon: '/static/img/ZZ.png',
             position: [x, y]
-
         });
     }
 
@@ -121,8 +120,9 @@
                 loadWorkMarker(x, y);
                 loadWorkRange(x, y, 60, "#3f67a5", vehicle);
                 map.setZoomAndCenter(12, [x, y]);
+                window.city_name = result.geocodes[0].addressComponent.city.replace("市", ""); //将城市写成全局变量
             }
-        })
+        });
     }
 
     function loadWorkRange(x, y, t, color, v) {
@@ -162,7 +162,7 @@
                 rentMarkerArray.push(rentMarker);
 
                 rentMarker.content =
-                    "<div>房源：<a target = '_blank' href='https://58.com/chuzu/0/b{{page}}/?key=" + address +
+                    "<div>房源:<a target = '_blank' href='https://58.com/chuzu/0/b{{page}}/?key=" + address +
                     "'>" + address + "</a><div>"
                 rentMarker.on('click', function (e) {
                     infoWindow.setContent(e.target.content);
@@ -194,37 +194,43 @@
         rentMarkerArray = [];
     }
 
-    function loadWorkLocation() {
-        delWorkLocation();
-        var geocoder = new AMap.Geocoder({
-            radius: 1000
-        });
 
-        geocoder.getLocation(workAddress, function (status, result) {
-            if (status === "complete" && result.info === 'OK') {
-                var geocode = result.geocodes[0];
-                x = geocode.location.getLng();
-                y = geocode.location.getLat();
-                loadWorkMarker(x, y);
-                loadWorkRange(x, y, 60, "#3f67a5", vehicle);
-                map.setZoomAndCenter(12, [x, y]);
-            }
-        })
-    }
-
-
-
-
-    function loadRentLocationByFile() {
+    function loadRentLocationByFile(data) {
         delRentLocation();
-        var rent_location = "{{name|safe}}"; {
+        var rent_location = data; {
             rent_locations = rent_location.split(",")
+            alert(rent_locations)
             for (var j = 0, len = rent_locations.length; j < len; j++) {
                 addMarkerByAddress(rent_locations[j]);
             };
-
         };
     };
+
+    function getJson() {
+        if (window.city_name == "" || window.city_name == undefined) {
+            alert("请选择工作地点")
+        } else {
+            city = window.city_name
+            var price_lev = window.document.getElementById("price_0").innerHTML.replace("<b>", "").replace("</b>", "")
+            if (price_lev == "1K以下") {
+                $.ajax({
+                    type: "post",
+                    url: "rentsData?&city=" + city + "&level=" + price_lev,
+                    complete: function (response) {
+                        if (response.status == 200) {
+                            return_data = JSON.parse(response.responseText);
+                            loadRentLocationByFile(return_data['xx'])
+                        } else {
+                            alert("数据请求失败 请刷新后重试")
+                        }
+                    }
+                })
+            } else if (price_lev == "1K至3K") {} else {
+
+            }
+        }
+
+    }
 </script>
 <style>
     .navigation {
