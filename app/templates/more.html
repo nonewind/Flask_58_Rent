@@ -27,17 +27,31 @@
         <input type="text" id="appendMyCity" placeholder="     输入提交城市" onkeypress="AppendMyCity()">
     </div>
 </div>
+<div class="img-gif">
+    <img src="https://backip-1259049233.cos.ap-nanjing.myqcloud.com/TC/Index_demo_1.gif">
+</div>
+<div class="backToIndex">
+    <h1><b><a href="/index "><--返回首页</b></a>
+    </h1>
+</div>
+<div class="divblog">
+    <a href=" http://blog.fuckname.top " target="_Blank "><img src="static/img/PKS.jpeg " title="我的博客"></a>
+</div>
+<div class="divgit">
+    <a href="https://github.com/nonewind" target="_Blank"><img src="/static/img/github.png" title="Github"></a>
+</div>
 
 <script>
     //搜索城市是否在支持列表中
     function seachMyCity() {
-        if (event.keyCode == 13) {//判断是否按下enter
+        if (event.keyCode == 13) { //判断是否按下enter
             var SeachCity = window.document.getElementById("findMyCity");
             SeachCity = SeachCity.value
             if (SeachCity == '') {
                 alert("你想搜个啥?")
             } else {
                 citycode_seach(SeachCity)
+                window.document.getElementById("findMyCity").value = '' //清空输入框
             }
         }
     }
@@ -65,6 +79,7 @@
                 alert("你想弄个啥?")
             } else {
                 AppendMyCity_append(SeachCity)
+                window.document.getElementById("appendMyCity").value = "" //清空输入框
             }
         }
     }

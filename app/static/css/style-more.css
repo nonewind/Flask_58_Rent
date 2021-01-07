@@ -65,3 +65,20 @@
     font-size: 6px;
     margin-left: 40px;
 }
+.backToIndex{
+    margin-top:10%;
+    margin-left: 70%;
+}
+.backToIndex h1{
+    font-size: 55px;
+}
+.img-gif{
+    position: relative;
+    z-index: 999;
+}
+.img-gif img{
+    margin-top: auto;
+    margin-left: 60%;
+    width: 600px;
+    height: 350px;
+}

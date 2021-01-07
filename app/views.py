@@ -72,4 +72,10 @@ def seachCity():
 
 @app.route("/appendCity",methods=['GET'])
 def appendCity():
-    pass
+    city = request.args.get("city")
+    """
+    添加到本地文件中
+    没事的时候去看看文件中最多的城市是哪个 加到数据库就可以
+    算是一个安慰剂效应
+    """
+    return(city)
