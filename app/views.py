@@ -55,3 +55,7 @@ def rents_test(name):
         name=curss_list,
         page=page_number
     )
+
+@app.route('/getCityList',methods=['GET'])
+def getCityList():
+    return(str(['上海','广东','深圳','重庆']))

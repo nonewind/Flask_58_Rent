@@ -48,7 +48,7 @@ a:hover {
     position: absolute;
     font-size: 30px;
     z-index: 999;
-    top: 400px;
+    top: 300px;
     left: 70px;
 }
 
@@ -56,7 +56,7 @@ a:hover {
     position: absolute;
     z-index: 999;
     font-size: 20px;
-    top: 700px;
+    top: 600px;
     left: 70px;
 }
 
@@ -110,23 +110,10 @@ a:hover {
     transform: scale(1.3);
 }
 
-.img-gif-1 {
-    position: relative;
-    margin-right: 20px;
-    margin-left: 60%;
-    margin-top: 50px;
-}
-
-.img-gif-1 img {
-    weight: 500;
-    height: 350;
-    border-style: solid;
-    border-width: 1px;
-}
 
 footer {
     position: relative;
-    margin-top: 10%;
+    margin-top:40%;
     margin-bottom: 1px;
     color: #000000;
 }
