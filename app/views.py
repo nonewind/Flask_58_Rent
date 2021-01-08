@@ -1,12 +1,11 @@
 from app import app
 from flask import render_template, request
-import sqlite3
 from pymongo import MongoClient
 
 # 数据库地址 mongoDB server connect
-client = MongoClient('mongodb://TaapSpider:mongouser@mongodb01.tools/login')
-db = client["Taotie"]
-coll = db["test_Spider_EXP_B"]
+client = MongoClient('mongodb://localhost')
+db = client["Fuck_58"]
+coll = db["spider"]
 
 @app.route('/')
 @app.route('/index')
