@@ -3,9 +3,9 @@ from flask import render_template, request
 from pymongo import MongoClient
 
 # 数据库地址 mongoDB server connect
-client = MongoClient('mongodb://localhost')
+client = MongoClient('mongodb://149.129.121.154')
 db = client["Fuck_58"]
-coll = db["spider"]
+coll = db['spider_result']
 
 @app.route('/')
 @app.route('/index')
@@ -31,6 +31,12 @@ def more():
 
 @app.route("/rentsData", methods=['POST'])
 def rentsData():
+    """
+    mongoDB中
+    1,2 代表0-1k 对应前端 0
+    3,4 代表1-2k 对应前端 1
+    5,6 代表2-3k 对应前端 2
+    """
     cityname = request.args.get("city")
     price_level = request.args.get("level")
     print(cityname, price_level)

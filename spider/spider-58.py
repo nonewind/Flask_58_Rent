@@ -25,7 +25,7 @@ def spider_main():
             for row in range(1, 21, 1):
                 # 页面深度
                 url = "https://m.58.com/{}/chuzu/b{}/pn{}/".format(
-                    line, str(item), str(row))
+                    line['city_58'], str(item), str(row))
                 req = requests.get(url, headers=headers)
                 if "404" not in req.url:
                     req_replace = req.text.replace(
@@ -43,7 +43,7 @@ def spider_main():
                                 "title":title_all_return[nn],
                                 "url":url_all_return[nn],
                                 "priceLevel":row,
-                                "cityname":line
+                                "cityname":line['city_zh']
                             }
                             mongoDB_insert(data)
                         except:
@@ -59,13 +59,9 @@ def mongoDB_insert(data):
 
 
 def city_get():
-    # 暂时设计成从文档中获取 后期需要改成从mongodb里获取
-    bat_line_city = r'[\s\S]{0,5}-'
-    with open("spider/city.json", 'r', encoding='utf8') as ff:
-        list_data = json.loads(ff.read())["city"]
-    list_return = [re.search(bat_line_city, line).group(0).replace("-", "")
-                   for line in list_data]  # 生成器+正则飞
-    return list_return
+    coll = db['spider_task']
+    data = coll.find()[0]["city_task"]
+    return data # data ->list
 
 
 if __name__ == "__main__":
