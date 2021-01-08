@@ -1,10 +1,12 @@
 from app import app
 from flask import render_template, request
 import sqlite3
+from pymongo import MongoClient
 
-
-DATABASE = 'data_loc.db'
-
+# 数据库地址 mongoDB server connect
+client = MongoClient('mongodb://TaapSpider:mongouser@mongodb01.tools/login')
+db = client["Taotie"]
+coll = db["test_Spider_EXP_B"]
 
 @app.route('/')
 @app.route('/index')
@@ -61,3 +63,12 @@ def appendCity():
     算是一个安慰剂效应
     """
     return(city)
+
+# 404 页面 不知道为什么不生效
+@app.errorhandler(404)
+def page_not_found():
+    return ("""
+    <h1>Page Not Found</h1>
+  <p>What you were looking for is just not there.
+  <p><a href="/index">go somewhere nice</a>
+    """)
