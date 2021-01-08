@@ -1,11 +1,12 @@
 from app import app
 from flask import render_template, request
 from pymongo import MongoClient
+import json
 
 # 数据库地址 mongoDB server connect
 client = MongoClient('mongodb://149.129.121.154')
 db = client["Fuck_58"]
-coll = db['spider_result']
+
 
 @app.route('/')
 @app.route('/index')
@@ -31,6 +32,7 @@ def more():
 
 @app.route("/rentsData", methods=['POST'])
 def rentsData():
+    coll = db['spider_result']
     """
     mongoDB中
     1,2 代表0-1k 对应前端 0
@@ -38,38 +40,72 @@ def rentsData():
     5,6 代表2-3k 对应前端 2
     """
     cityname = request.args.get("city")
-    price_level = request.args.get("level")
-    print(cityname, price_level)
-    data = {
-        "msg":"ok",
-        "data":[{"title":"台柳路附近，照片实图精装朝南主卧独卫特价出租免中介","url":"xxxxxxxxxxxxx"},
-        {"title":"伊春路附近，照片实图精装朝南主卧独卫特价出租免中介","url":"xxxxxxxxxxxxx"},
-        {"title":"台湛路附近，照片实图精装朝南主卧独卫特价出租免中介","url":"xxxxxxxxxxxxx"}]
+    # 这里不需要验证城市名称 这个名称是由高德查询返回的
+    price_level = int(request.args.get("level"))
+    list_return = []
+    if price_level == 0:
+        list_data = []
+        data_0 = coll.find({"cityname":"qd","priceLevel":1})
+        list_data.extend(data_0)
+        data_1 = coll.find({"cityname":"qd","priceLevel":2})
+        list_data.extend(data_1)
+    elif price_level == 1:
+        list_data = []
+        data_0 = coll.find({"cityname":"qd","priceLevel":3})
+        list_data.extend(data_0)
+        data_1 = coll.find({"cityname":"qd","priceLevel":4})
+        list_data.extend(data_1)
+    else:
+        list_data = []
+        data_0 = coll.find({"cityname":"qd","priceLevel":5})
+        list_data.extend(data_0)
+        data_1 = coll.find({"cityname":"qd","priceLevel":6})
+        list_data.extend(data_1)
+
+    for line in list_data:
+        oo_data = {
+            "title":line['title'],
+            "url":line["url"]
         }
-    return(data)
+        list_return.append(oo_data)
+    return({
+        "data":list_return
+    })
+
+
 
 
 @app.route("/seachCity", methods=['GET'])
 def seachCity():
-    WananCity = request.args.get("city")
     """
     查询数据库
     返回是否已经支持
     """
-    return(WananCity)
+    coll = db['spider_task']
+    WananCity = request.args.get("city").replace("市", "")
+    data = coll.find()[0]["city_task"]
+    for line in data:
+        if line["city_zh"] in WananCity:
+            return("查询成功 已经支持了您查询的城市!")
+    return("查询成功 暂时还不支持您查询的城市 您可以提交所查询的城市!")
 
 
 @app.route("/appendCity", methods=['GET'])
 def appendCity():
-    city = request.args.get("city")
+    city = request.args.get("city").replace("市", "")
     """
     添加到本地文件中
     没事的时候去看看文件中最多的城市是哪个 加到数据库就可以
     算是一个安慰剂效应
     """
-    return(city)
+    with open("IwananCity.txt", 'a', encoding='utf8') as ff:
+        ff.write(city)
+        ff.write("\n")
+    return("提交成功 感谢您对我的支持!")
 
 # 404 页面 不知道为什么不生效
+
+
 @app.errorhandler(404)
 def page_not_found():
     return ("""

@@ -149,9 +149,8 @@
         var geocoder = new AMap.Geocoder({
             radius: 1000
         });
-        debugger;
 
-        geocoder.getLocation(window.city_name+spiderData["title"], function (status, result) {
+        geocoder.getLocation(window.city_name + spiderData["title"], function (status, result) {
             if (status === "complete" && result.info === 'OK') {
                 var geocode = result.geocodes[0];
                 rentMarker = new AMap.Marker({
@@ -160,7 +159,6 @@
                     icon: '/static/img/ZZ_1.png',
                     position: [geocode.location.getLng(), geocode.location.getLat()]
                 });
-                debugger;
                 rentMarkerArray.push(rentMarker);
                 rentMarker.content =
                     "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
@@ -198,9 +196,13 @@
 
     function loadRentLocationByFile(data) {
         delRentLocation();
-        var spider_data = data["data"]; {
-            for (var j = 0, len = spider_data.length; j < len; j++) {
-                addMarkerByAddress(spider_data[j]);
+        if (data == undefined || data.length == 0) {
+            alert("没有查询到相关数据 有可能是该城市还没有支持")
+        } else {
+            var spider_data = data; {
+                for (var j = 0, len = spider_data.length; j < len; j++) {
+                    addMarkerByAddress(spider_data[j]);
+                };
             };
         };
     };
@@ -216,8 +218,9 @@
                 url: "rentsData?&city=" + city + "&level=" + price_level_post,
                 complete: function (response) {
                     if (response.status == 200) {
-                        return_data = JSON.parse(response.responseText);
+                        return_data = JSON.parse(response.responseText)["data"];
                         loadRentLocationByFile(return_data)
+
                     } else {
                         alert("数据请求失败 请刷新后重试")
                     }
@@ -237,8 +240,9 @@
                 url: "rentsData?&city=" + city + "&level=" + price_level_post,
                 complete: function (response) {
                     if (response.status == 200) {
-                        return_data = JSON.parse(response.responseText);
-                        loadRentLocationByFile(return_data['xx'])
+                        return_data = JSON.parse(response.responseText)["data"];
+                        loadRentLocationByFile(return_data)
+
                     } else {
                         alert("数据请求失败 请刷新后重试")
                     }
@@ -258,8 +262,9 @@
                 url: "rentsData?&city=" + city + "&level=" + price_level_post,
                 complete: function (response) {
                     if (response.status == 200) {
-                        return_data = JSON.parse(response.responseText);
-                        loadRentLocationByFile(return_data['xx'])
+                        return_data = JSON.parse(response.responseText)["data"];
+                        loadRentLocationByFile(return_data)
+
                     } else {
                         alert("数据请求失败 请刷新后重试")
                     }
