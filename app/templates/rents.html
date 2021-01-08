@@ -111,7 +111,6 @@
         var geocoder = new AMap.Geocoder({
             radius: 1000
         });
-        console.log(vehicle, "vehicle")
         geocoder.getLocation(workAddress, function (status, result) {
             if (status === "complete" && result.info === 'OK') {
                 var geocode = result.geocodes[0];
@@ -146,24 +145,26 @@
         });
     }
 
-    function addMarkerByAddress(address) {
+    function addMarkerByAddress(spiderData) {
         var geocoder = new AMap.Geocoder({
             radius: 1000
         });
-        geocoder.getLocation(address, function (status, result) {
+        debugger;
+
+        geocoder.getLocation(window.city_name+spiderData["title"], function (status, result) {
             if (status === "complete" && result.info === 'OK') {
                 var geocode = result.geocodes[0];
                 rentMarker = new AMap.Marker({
                     map: map,
-                    title: address,
+                    title: window.city_name + spiderData["title"],
                     icon: '/static/img/ZZ_1.png',
                     position: [geocode.location.getLng(), geocode.location.getLat()]
                 });
+                debugger;
                 rentMarkerArray.push(rentMarker);
-
                 rentMarker.content =
-                    "<div>房源:<a target = '_blank' href='https://58.com/chuzu/0/b{{page}}/?key=" + address +
-                    "'>" + address + "</a><div>"
+                    "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
+                    "'>" + spiderData["title"] + "</a><div>"
                 rentMarker.on('click', function (e) {
                     infoWindow.setContent(e.target.content);
                     infoWindow.open(map, e.target.getPosition());
@@ -176,7 +177,7 @@
                     amapTransfer.search([{
                         keyword: workAddress
                     }, {
-                        keyword: address
+                        keyword: spiderData
                     }], function (status, result) {})
                 });
             }
@@ -197,16 +198,14 @@
 
     function loadRentLocationByFile(data) {
         delRentLocation();
-        var rent_location = data; {
-            rent_locations = rent_location.split(",")
-            alert(rent_locations)
-            for (var j = 0, len = rent_locations.length; j < len; j++) {
-                addMarkerByAddress(rent_locations[j]);
+        var spider_data = data["data"]; {
+            for (var j = 0, len = spider_data.length; j < len; j++) {
+                addMarkerByAddress(spider_data[j]);
             };
         };
     };
 
-    function getJson_1() {
+    function getJson_0() {
         if (window.city_name == "" || window.city_name == undefined) {
             alert("请选择工作地点")
         } else {
@@ -218,7 +217,7 @@
                 complete: function (response) {
                     if (response.status == 200) {
                         return_data = JSON.parse(response.responseText);
-                        loadRentLocationByFile(return_data['xx'])
+                        loadRentLocationByFile(return_data)
                     } else {
                         alert("数据请求失败 请刷新后重试")
                     }
@@ -248,7 +247,7 @@
         }
     }
 
-    function getJson_2(){
+    function getJson_2() {
         if (window.city_name == "" || window.city_name == undefined) {
             alert("请选择工作地点")
         } else {

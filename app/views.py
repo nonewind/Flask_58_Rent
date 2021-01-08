@@ -33,7 +33,13 @@ def rentsData():
     cityname = request.args.get("city")
     price_level = request.args.get("level")
     print(cityname, price_level)
-    return('{"xx":"台柳路附近，照片实图精装朝南主卧独卫特价出租免中介  "}')
+    data = {
+        "msg":"ok",
+        "data":[{"title":"台柳路附近，照片实图精装朝南主卧独卫特价出租免中介","url":"xxxxxxxxxxxxx"},
+        {"title":"伊春路附近，照片实图精装朝南主卧独卫特价出租免中介","url":"xxxxxxxxxxxxx"},
+        {"title":"台湛路附近，照片实图精装朝南主卧独卫特价出租免中介","url":"xxxxxxxxxxxxx"}]
+        }
+    return(data)
 
 
 @app.route("/seachCity", methods=['GET'])
