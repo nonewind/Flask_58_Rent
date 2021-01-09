@@ -58,14 +58,15 @@ server {
 ![img](/img/web_1.png)
 在网站根目录下新建一个config.ini
 ```
-[uwsgi]  
-# uwsgi 启动时所使用的地址与端口，注意服务器提供商和宝塔的端口放行策略  
-socket = 127.0.0.1:8386  # 指向网站目录  
-chdir = /www/wwwroot/xxxxx.com # python 启动程序文件,根据你的实际情况填写  
-wsgi-file = run.py # python 程序内用以启动的 application 变量名,根据你的实际情况填写  
-callable = app # 处理器数,根据你的实际情况填写  
-processes = 1  # 线程数  
-threads = 2  #状态检测地址，注意服务器提供商和宝塔的端口放行策略  stats = 127.0.0.1:9191
+[uwsgi]
+# uwsgi
+socket = 127.0.0.1:8386  启动时所使用的地址与端口，注意服务器提供商和宝塔的端口放行策略
+chdir = /www/wwwroot/xxxxx.com # 指向网站目录
+wsgi-file = run.py # python 启动程序文件,根据你的实际情况填写
+callable = app # python 程序内用以启动的 application 变量名,根据你的实际情况填写
+processes = 1  # 处理器数,根据你的实际情况填写
+threads = 2  # 线程数
+stats = 127.0.0.1:9191 #状态检测地址，注意服务器提供商和宝塔的端口放行策略
 ```
 - 安装依赖
 ```
