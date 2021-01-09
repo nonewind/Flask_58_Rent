@@ -31,7 +31,7 @@ def spider_main():
             # 解决数据冗余 筛选出日期在30天以上的数据 直接删除掉
             update = datetime.datetime.today().date()
             # 价格等级
-            for row in range(1, 21, 1):
+            for row in range(1, 10, 1):
                 # 页面深度 根据抓取结果来看 当页面深度约在25时会出现脏数据
                 print(line['city_zh']+"价格等级"+str(item)+"的第"+str(row)+"个页面")
                 url = "https://m.58.com/{}/chuzu/b{}/pn{}/".format(
