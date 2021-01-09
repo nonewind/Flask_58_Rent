@@ -72,7 +72,7 @@ def spider_main():
                     print("抓取失败")
                     pass
                 print("休眠一下")
-                time.sleep(random.uniform(30,60))  # 随机休眠30~60s
+                time.sleep(random.uniform(40,80))  # 随机休眠40~80s
 
 
 def mongoDB_insert(data):
