@@ -16,7 +16,7 @@ data = {
             "city_58": "sh",
             "city_zh": "上海"
         }, {
-            "city_58": "sz",
+            "city_58": "hf",
             "city_zh": "合肥"
         }
     ]

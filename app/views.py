@@ -39,27 +39,27 @@ def rentsData():
     3,4 代表1-2k 对应前端 1
     5,6 代表2-3k 对应前端 2
     """
-    cityname = request.args.get("city")
+    cityname = request.args.get("city") # return like "青岛"
     # 这里不需要验证城市名称 这个名称是由高德查询返回的
     price_level = int(request.args.get("level"))
     list_return = []
     if price_level == 0:
         list_data = []
-        data_0 = coll.find({"cityname":"qd","priceLevel":1})
+        data_0 = coll.find({"cityname":cityname,"priceLevel":1})
         list_data.extend(data_0)
-        data_1 = coll.find({"cityname":"qd","priceLevel":2})
+        data_1 = coll.find({"cityname":cityname,"priceLevel":2})
         list_data.extend(data_1)
     elif price_level == 1:
         list_data = []
-        data_0 = coll.find({"cityname":"qd","priceLevel":3})
+        data_0 = coll.find({"cityname":cityname,"priceLevel":3})
         list_data.extend(data_0)
-        data_1 = coll.find({"cityname":"qd","priceLevel":4})
+        data_1 = coll.find({"cityname":cityname,"priceLevel":4})
         list_data.extend(data_1)
     else:
         list_data = []
-        data_0 = coll.find({"cityname":"qd","priceLevel":5})
+        data_0 = coll.find({"cityname":cityname,"priceLevel":5})
         list_data.extend(data_0)
-        data_1 = coll.find({"cityname":"qd","priceLevel":6})
+        data_1 = coll.find({"cityname":cityname,"priceLevel":6})
         list_data.extend(data_1)
 
     for line in list_data:

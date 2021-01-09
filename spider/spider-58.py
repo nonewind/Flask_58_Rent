@@ -76,7 +76,18 @@ def spider_main():
 
 
 def mongoDB_insert(data):
-    coll.insert_one(data)
+    """
+    提交数据库\n
+    首先进行一次查询 如果能查询到数据 就跳过插入阶段\n
+    如果查询不到 就进行一次插入
+    """
+    pullDB = coll.find(data)
+    try:
+        mmmm = pullDB[0]
+        print("有数据 跳过")
+    except:
+        print("没有数据 插入")
+        coll.insert_one(data)
 
 
 def city_get():
