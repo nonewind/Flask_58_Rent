@@ -22,7 +22,7 @@ data = {
     ]
 }
 
-client = MongoClient('mongodb://127.0.0.1:27017',connect=False)
+client = MongoClient('mongodb://101.32.185.181:27017',connect=False)
 db = client["Fuck_58"]
 coll = db['spider_task']
 
