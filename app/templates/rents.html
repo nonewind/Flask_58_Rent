@@ -9,7 +9,7 @@
         <div class="dropdown-content">
             <p onclick="getJson_0()" id="price_0"><b>1K以下</b></p>
             <p onclick="getJson_1()" id="price_0"><b>1K~2K</b></p>
-            <p onclick="getJson_2()" id="price_0"><b>2K以上</b></p>
+            <p onclick="getJson_2()" id="price_0"><b>2K~3k</b></p>
         </div>
     </div>
     <div class="div2">
@@ -155,7 +155,7 @@
                 var geocode = result.geocodes[0];
                 rentMarker = new AMap.Marker({
                     map: map,
-                    title: window.city_name + spiderData["title"],
+                    title: window.city_name + "市" + spiderData["title"],
                     icon: '/static/img/ZZ_1.png',
                     position: [geocode.location.getLng(), geocode.location.getLat()]
                 });
