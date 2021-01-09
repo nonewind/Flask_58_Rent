@@ -30,8 +30,8 @@ def spider_main():
             # 解决数据冗余 筛选出日期在30天以上的数据 直接删除掉
             update = datetime.datetime.today().date()
             # 价格等级
-            for row in range(1, 11, 1):
-                # 页面深度 根据抓取结果来看 当页面深度约在15时会出现脏数据
+            for row in range(1, 21, 1):
+                # 页面深度 根据抓取结果来看 当页面深度约在25时会出现脏数据
                 print(line['city_zh']+"价格等级"+str(item)+"的第"+str(row)+"个页面")
                 url = "https://m.58.com/{}/chuzu/b{}/pn{}/".format(
                     line['city_58'], str(item), str(row))
@@ -44,6 +44,8 @@ def spider_main():
                     # 飞两个正则 飞出title和url
                     bat_title = r'<spanclass=\"list-item-info-addr-textstrongbox\">[\s\S]{1,50}</span>'
                     bat_url = r'<aclass=\"list-item\"href=\"[\s\S]{1,1000}\"tongji_tag='
+                    bat_price = r'<iclass=\"strongbox\">[\d\D]{1,6}</i>'
+                    price_all = re.compile(bat_price).findall(req_replace)
                     title_all = re.compile(bat_title).findall(req_replace)
                     url_all = re.compile(bat_url).findall(req_replace)
                     # 生成器+repalce 输出想要的字符 -> list()
@@ -51,6 +53,7 @@ def spider_main():
                         '<spanclass="list-item-info-addr-textstrongbox">', '').replace('</span>', '') for x in title_all]
                     url_all_return = [y.replace(
                         '<aclass="list-item"href="', '').replace('"tongji_tag=', '') for y in url_all]
+                    price = [mmmmm.replace('<iclass="strongbox">','').replace('</i>','') for mmmmm in price_all]
                     # 去掉title中的 x室
                     bat_title_x = r'[\d]室'
                     title_all_new = [re.sub(bat_title_x, '', xxxx)
@@ -63,6 +66,7 @@ def spider_main():
                                 "url": url_all_return[nn],
                                 "priceLevel": item,
                                 "cityname": line['city_zh'],
+                                "price":price[nn],
                                 "update": str(update)
                             }
                             mongoDB_insert(data)
