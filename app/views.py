@@ -65,7 +65,8 @@ def rentsData():
     for line in list_data:
         oo_data = {
             "title":line['title'],
-            "url":line["url"]
+            "url":line["url"],
+            "price":line["price"]
         }
         list_return.append(oo_data)
     return({
