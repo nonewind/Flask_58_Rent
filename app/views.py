@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import json
 
 # 数据库地址 mongoDB server connect
-client = MongoClient('mongodb://149.129.121.154')
+client = MongoClient('mongodb://localhost')
 db = client["Fuck_58"]
 
 

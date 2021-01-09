@@ -10,7 +10,7 @@ import time
 import requests
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://149.129.121.154')
+client = MongoClient('mongodb://localhost')
 db = client["Fuck_58"]
 coll = db['spider_result']
 """
