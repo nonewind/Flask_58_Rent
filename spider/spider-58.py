@@ -61,7 +61,7 @@ def spider_main():
                             data = {
                                 "title": title_all_new[nn],
                                 "url": url_all_return[nn],
-                                "priceLevel": row,
+                                "priceLevel": item,
                                 "cityname": line['city_zh'],
                                 "update": str(update)
                             }
