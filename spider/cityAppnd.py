@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from config import MONGO
 
 
 data = {
@@ -21,8 +22,8 @@ data = {
         }
     ]
 }
-
-client = MongoClient('mongodb://101.32.185.181:27017',connect=False)
+print(MONGO)
+client = MongoClient(MONGO,connect=False)
 db = client["Fuck_58"]
 coll = db['spider_task']
 

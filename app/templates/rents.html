@@ -162,7 +162,7 @@
                 rentMarkerArray.push(rentMarker);
                 rentMarker.content =
                     "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
-                    "'>" + spiderData["title"] + "</a><div><div>价格:"+spiderData["price"]+"元 (注意该价格为参考价格 实际价格以页面为准)</div>"
+                    "'>" + spiderData["title"] + "</a><div><div>价格:"+spiderData["price"]+"元 (该价格仅为参考价格以跳转页面为准)</div>"
                 rentMarker.on('click', function (e) {
                     infoWindow.setContent(e.target.content);
                     infoWindow.open(map, e.target.getPosition());
