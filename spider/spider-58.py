@@ -10,7 +10,7 @@ import time
 import requests
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb')
+client = MongoClient('mongodb://127.0.0.1:27017',connect=False)
 db = client["Fuck_58"]
 coll = db['spider_result']
 """
@@ -72,7 +72,7 @@ def spider_main():
                     print("抓取失败")
                     pass
                 print("休眠一下")
-                time.sleep(random.uniform(10, 20))  # 随机休眠20~60s
+                time.sleep(random.uniform(30,60))  # 随机休眠30~60s
 
 
 def mongoDB_insert(data):

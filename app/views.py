@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import json
 
 # 数据库地址 mongoDB server connect
-client = MongoClient('mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb')
+client = MongoClient('mongodb://127.0.0.1:27017',connect=False)
 db = client["Fuck_58"]
 
 

@@ -22,7 +22,7 @@ data = {
     ]
 }
 
-client = MongoClient('mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb')
+client = MongoClient('mongodb://127.0.0.1:27017',connect=False)
 db = client["Fuck_58"]
 coll = db['spider_task']
 
