@@ -44,7 +44,7 @@ def spider_main():
                         "\n", "").replace("\t", "").replace(" ", "")
                     # 飞两个正则 飞出title和url
                     bat_title = r'<spanclass=\"list-item-info-addr-textstrongbox\">[\s\S]{1,50}</span>'
-                    bat_url = r'<aclass=\"list-item\"href=\"[\s\S]{1,1000}\"tongji_tag='
+                    bat_url = r'https://m\.58\.com/[\S]{1,2}/[\S]{1,10}/[\D\d]{1,50}\?houseId=[\d]{1,100}'
                     bat_price = r'<iclass=\"strongbox\">[\d\D]{1,6}</i>'
                     price_all = re.compile(bat_price).findall(req_replace)
                     title_all = re.compile(bat_title).findall(req_replace)
@@ -52,8 +52,6 @@ def spider_main():
                     # 生成器+repalce 输出想要的字符 -> list()
                     title_all_return = [x.replace(
                         '<spanclass="list-item-info-addr-textstrongbox">', '').replace('</span>', '') for x in title_all]
-                    url_all_return = [y.replace(
-                        '<aclass="list-item"href="', '').replace('"tongji_tag=', '') for y in url_all]
                     price = [mmmmm.replace('<iclass="strongbox">','').replace('</i>','') for mmmmm in price_all]
                     # 去掉title中的 x室
                     bat_title_x = r'[\d]室'
@@ -64,7 +62,7 @@ def spider_main():
                         try:
                             data = {
                                 "title": title_all_new[nn],
-                                "url": url_all_return[nn],
+                                "url": url_all[nn],
                                 "priceLevel": item,
                                 "cityname": line['city_zh'],
                                 "price":price[nn],
