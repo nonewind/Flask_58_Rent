@@ -11,10 +11,9 @@ db = client["Fuck_58"]
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template(
+    return  render_template(
         'index.html'
     )
-
 
 @app.route('/rents')
 def rents():
