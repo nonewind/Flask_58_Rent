@@ -7,12 +7,12 @@
     <title>GoBack</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.3/darkly/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link  href="/static/css/styles.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/css/styles.min.css">
 </head>
 
 <body>
     <!-- Start: Bootstrap 4 - Full Video Background v2 --><div class="video-background-holder" title="点击开始">
-  <a class="active" href="/rents">
+  <a href="/rents">
   <div class="video-background-overlay"></div>
   <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
         <source src="https://backip-1259049233.cos.ap-nanjing.myqcloud.com/TC/video_0.mp4" type="video/mp4">
@@ -26,6 +26,29 @@
     </div>
   </div></a>
 </div><!-- End: Bootstrap 4 - Full Video Background v2 -->
+    <!-- Start: Article List -->
+    <div class="article-list">
+        <div class="container">
+            <!-- Start: Intro -->
+            <div class="intro">
+                <h2 class="text-center">快点回家</h2>
+                <p class="text-center">基于高德地图API的在线可视化选点租房</p>
+            </div><!-- End: Intro -->
+            <!-- Start: Articles -->
+            <div class="row articles">
+                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="/static/img/fast.jpg"></a>
+                    <h3 class="name"></h3>
+                    <p class="description"><br>地图选点&nbsp; 快速筛选出上下班通勤在1小时内的在租房源<br>无数打工人的心酸血泪史<br>数据更新快 随时都能拿到第一手房源<br></p>
+                </div>
+                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="/static/img/dead.jpg"></a>
+                    <p class="description"><br>注意:数据源来自于互联网 不保证其数据的可靠性&nbsp;<br>在涉及资金往来时<br>请注意自身财产安全&nbsp;谨防上当受骗<br></p>
+                </div>
+                <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" src="/static/img/more.jpg"></a>
+                    <p class="description">&nbsp;<br>查询更多支持城市/提交想要支持的城市<br>请点击下方的“更多”</p><a class="action" href="#"></a>
+                </div>
+            </div><!-- End: Articles -->
+        </div>
+    </div><!-- End: Article List -->
     <!-- Start: Footer Basic -->
     <div class="footer-basic">
         <footer>
@@ -34,7 +57,6 @@
             <!-- Start: Links -->
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="#">主页</a></li>
-                <li class="list-inline-item"><a href="/about">关于</a></li>
                 <li class="list-inline-item"><a href="/more">更多</a></li>
             </ul><!-- End: Links -->
             <!-- Start: Copyright -->
@@ -43,7 +65,7 @@
     </div><!-- End: Footer Basic -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
-    <script src="static/js/script.min.js"></script>
+    <script src="/static/js/script.min.js"></script>
 </body>
 
 </html>
