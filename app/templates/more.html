@@ -1,103 +1,98 @@
-{% extends "base.html" %} {% block content %}
-<div class="bg_1"></div>
-<div class="bg_2"></div>
-<div class="city-list">
-    <h2>支持的城市列表</h2>
-    <div class="city-list-child">
-        <h3>目前已经支持的城市</h3>
-        <div class="list_js_get">
-            <p id="cityListLoad">青岛 济南 北京 上海 合肥...</p>
-        </div>
-        <h3>查询已经支持的城市</h3>
-        <div class="list_js_get">
-            <p>请在下方的框框中输入您想查询的城市 按下<b>回车</b>后提交</p>
-            <p>如: "北京市" 请输入: 北京</p>
-            <input type="text" id="findMyCity" placeholder="     输入搜索城市" onkeypress="seachMyCity()">
-        </div>
-    </div>
-    <div class="appendMoreCity">
-        <h3>提交想要新增的城市</h3>
-        <div class="XSBB">
-            <p>提交到后端中根据情况酌情添加(考虑到服务器的负载~爬虫的负载~之类的情况) 或者你可以点击<a href="https://github.com/nonewind/Flask_58_Rent"
-                    target="_blank">GitHub开源地址</a></p>
-            <p>按照教程搭建一个 属于自己的租房系统</p>
-        </div>
-        <p>请在下方的框框中输入您想提交的城市 按下<b>回车</b>后提交</p>
-        <p>如: "北京市" 请输入: 北京</p>
-        <input type="text" id="appendMyCity" placeholder="     输入提交城市" onkeypress="AppendMyCity()">
-    </div>
-</div>
-<div class="img-gif">
-    <img src="https://backip-1259049233.cos.ap-nanjing.myqcloud.com/TC/Index_demo_1.gif">
-</div>
-<div class="backToIndex">
-    <h1><b><a href="/index "><--返回首页</b></a>
-    </h1>
-</div>
-<div class="divblog">
-    <a href=" http://blog.fuckname.top " target="_Blank "><img src="static/img/PKS.jpeg " title="我的博客"></a>
-</div>
-<div class="divgit">
-    <a href="https://github.com/nonewind" target="_Blank"><img src="/static/img/github.png" title="Github"></a>
-</div>
+<!DOCTYPE html>
+<html>
 
-<script>
-    //搜索城市是否在支持列表中
-    function seachMyCity() {
-        if (event.keyCode == 13) { //判断是否按下enter
-            var SeachCity = window.document.getElementById("findMyCity");
-            SeachCity = SeachCity.value
-            if (SeachCity == '') {
-                alert("你想搜个啥?")
-            } else {
-                citycode_seach(SeachCity)
-                window.document.getElementById("findMyCity").value = '' //清空输入框
-            }
-        }
-    }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>more</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/more/styles.min.css">
+</head>
 
-    function citycode_seach(data) {
-        $.ajax({ //构建请求
-            type: "get",
-            url: "/seachCity?&city=" + data,
-            complete: function (response) {
-                if (response.status == 200) {
-                    var res_return = response.responseText;
-                    alert(res_return)
+<body>
+    <!-- Start: Navigation Clean -->
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean">
+        <div class="container"><a class="navbar-brand" href="#">快点回家</a><button data-toggle="collapse"
+                class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/index">返回首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="http://blog.fuckname.top">我的博客</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://github.com/nonewind/Fuck_58">Github</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav><!-- End: Navigation Clean -->
+    <!-- Start: Parallax Background -->
+    <div data-bs-parallax-bg="true"
+        style="height:500px;background-image:url(https://unsplash.it/1800/900?image=1051);background-position:center;background-size:cover;">
+    </div><!-- End: Parallax Background -->
+    <!-- Start: Highlight Clean -->
+    <div class="highlight-clean">
+        <div class="container">
+            <!-- Start: Intro -->
+            <div class="intro">
+                <h2 class="text-center">关于</h2>
+                <p class="lead text-center">
+                    个人开发者－毕设作品<br>Python－Flask<br>高德API<br>Bootstrap<br><br>更多请访问GitHub<br>······<br></p>
+            </div><!-- End: Intro -->
+            <!-- Start: Buttons -->
+            <div class="buttons"></div><!-- End: Buttons -->
+        </div>
+    </div><!-- End: Highlight Clean -->
+    <!-- Start: Footer Basic -->
+    <div class="footer-basic">
+        <h3 class="text-center d-xl-flex justify-content-xl-center">更多城市的支持<br></h3>
+        <footer>
+            <!-- Start: Social Icons -->
+            <div class="social"><small class="form-text text-muted"
+                    >输入后回车　完成提交</small><input class="border rounded-pill" type="text"
+                    pattern="水水水水" onkeypress="AppendMyCity()" id="appendMyCity"><span><br>在这里你可以提交不在支持列表里的城市<br><br><br><br><br><br></span></div>
+            <!-- End: Social Icons -->
+            <!-- Start: Links -->
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">主页</a></li>
+                <li class="list-inline-item"><a href="#">博客</a></li>
+                <li class="list-inline-item"><a href="#">Github</a></li>
+            </ul><!-- End: Links -->
+            <!-- Start: Copyright -->
+            <p class="copyright">Ziheng_wind © 2018-2021</p><!-- End: Copyright -->
+        </footer>
+    </div><!-- End: Footer Basic -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/more/script.min.js"></script>
+    <script>
+        function AppendMyCity() {
+            if (event.keyCode == 13) {
+                var SeachCity = window.document.getElementById("appendMyCity");
+                SeachCity = SeachCity.value
+                if (SeachCity == '') {
+                    alert("你想弄个啥?")
                 } else {
-                    alert("~后端返回失败~")
+                    AppendMyCity_append(SeachCity)
+                    window.document.getElementById("appendMyCity").value = "" //清空输入框
                 }
             }
-        })
-    }
-    //提交想要添加的城市
-    function AppendMyCity() {
-        if (event.keyCode == 13) {
-            var SeachCity = window.document.getElementById("appendMyCity");
-            SeachCity = SeachCity.value
-            if (SeachCity == '') {
-                alert("你想弄个啥?")
-            } else {
-                AppendMyCity_append(SeachCity)
-                window.document.getElementById("appendMyCity").value = "" //清空输入框
-            }
         }
-    }
 
-    function AppendMyCity_append(data) {
-        $.ajax({
-            type: "get",
-            url: "/appendCity?&city=" + data,
-            complete: function (response) {
-                if (response.status == 200) {
-                    var res_return = response.responseText;
-                    alert(res_return)
-                } else {
-                    alert("~后端返回失败~")
+        function AppendMyCity_append(data) {
+            $.ajax({
+                type: "get",
+                url: "/appendCity?&city=" + data,
+                complete: function (response) {
+                    if (response.status == 200) {
+                        var res_return = response.responseText;
+                        alert(res_return)
+                    } else {
+                        alert("~后端返回失败~")
+                    }
                 }
-            }
-        })
+            })
 
-    }
-</script>
-{% endblock %}
+        }
+    </script>
+</body>
+
+</html>
