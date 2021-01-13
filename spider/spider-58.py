@@ -27,8 +27,7 @@ def spider_main():
     for line in listOfCity:
         # 城市名
         for item in range(1, 7, 1):  # 12|34|56 - 0|1|2
-            # 爬虫抓取日期 为了以后的解决数据冗余问题而设置的字段
-            # 解决数据冗余 筛选出日期在30天以上的数据 直接删除掉
+            # 价格等级
             update = datetime.datetime.today().date()
             # 价格等级
             for row in range(1, 10, 1):
@@ -76,6 +75,10 @@ def spider_main():
                     pass
                 print("休眠一下")
                 time.sleep(random.uniform(40,80))  # 随机休眠40~80s
+        # 过期数据处理
+        date_clean = (datetime.datetime.today()-datetime.timedelta(days=7)).date()
+        que = {"update":date_clean}
+        coll.delete_many(que)
 
 
 def mongoDB_insert(data):
