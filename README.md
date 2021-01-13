@@ -1,6 +1,7 @@
 ## 快点回家
 一款基于Flask、高德开放api的可视化地图租房规划web
-**愿你在陌生冰冷的城市里有一盏属于自己的灯** [预览地址](http://map.ziheng.xyz)
+**愿你在陌生冰冷的城市里有一盏属于自己的灯**
+[预览地址](http://map.ziheng.xyz)~~pc/pad浏览获得最好体验~~
 
 
 声明：本项目中的，关于高德API和部分JS代码来自于[蓝桥云课](https://www.lanqiao.cn/courses/599)
