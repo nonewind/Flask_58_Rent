@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from pymongo import MongoClient
 import json
 
@@ -11,22 +11,17 @@ db = client["Fuck_58"]
 @app.route('/')
 @app.route('/index')
 def index():
-    return  render_template(
-        'index.html'
-    )
+    return render_template('index.html')
+
 
 @app.route('/rents')
 def rents():
-    return render_template(
-        'rents.html'
-    )
+    return render_template('rents.html')
 
 
 @app.route("/more")
 def more():
-    return render_template(
-        'more.html'
-    )
+    return render_template('more.html')
 
 
 @app.route("/rentsData", methods=['POST'])
@@ -62,15 +57,9 @@ def rentsData():
         list_data.extend(data_1)
 
     for line in list_data:
-        oo_data = {
-            "title": line['title'],
-            "url": line["url"],
-            "price": line["price"]
-        }
+        oo_data = {"title": line['title'], "url": line["url"], "price": line["price"]}
         list_return.append(oo_data)
-    return({
-        "data": list_return
-    })
+    return ({"data": list_return})
 
 
 @app.route("/seachCity", methods=['GET'])
@@ -84,8 +73,8 @@ def seachCity():
     data = coll.find()[0]["city_task"]
     for line in data:
         if line["city_zh"] in WananCity:
-            return("查询成功 已经支持了您查询的城市!")
-    return("查询成功 暂时还不支持您查询的城市 您可以提交所查询的城市!")
+            return ("查询成功 已经支持了您查询的城市!")
+    return ("查询成功 暂时还不支持您查询的城市 您可以提交所查询的城市!")
 
 
 @app.route("/appendCity", methods=['GET'])
@@ -99,15 +88,35 @@ def appendCity():
     with open("IwananCity.txt", 'a', encoding='utf8') as ff:
         ff.write(city)
         ff.write("\n")
-    return("提交成功 感谢您对我的支持!")
+    return ("提交成功 感谢您对我的支持!")
 
-# 404 页面 不知道为什么不生效
+
+@app.route("/login", methods=['POST'])
+def login():
+    user = request.args.get("user")
+    pass_word = request.args.get("pass")
+    """
+    查询数据库
+    """
+    return "success"
+
+
+@app.route("/admin", methods=['GET'])
+def admin():
+    try:
+        user = request.args.get("user")
+        if user:
+            return render_template("admin.html")
+        else:
+            return render_template("login.html")
+    except:
+        return render_template("login.html")
 
 
 @app.errorhandler(404)
-def page_not_found():
+def page_not_found(xx):
     return ("""
-    <h1>Page Not Found</h1>
+    <h1>404 Page Not Found</h1>
   <p>What you were looking for is just not there.
   <p><a href="/index">go somewhere nice</a>
     """)
