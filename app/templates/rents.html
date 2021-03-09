@@ -1,20 +1,10 @@
+<!--
+ * @Author: Ziheng
+ * @Date: 2021-01-11 10:19:48
+ * @LastEditTime: 2021-03-09 16:52:25
+-->
 {% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
-<!-- 导航栏 -->
-<ul class="navigation">
-    <li><a class="active" href="/index"><b>主页</b></a></li>
-    <!-- 这里未来会添加上更多的城市和价格选项 -->
-    <div class="dropdown">
-        <a href="#" class="dropbtn"><b>价格区间</b></a>
-        <div class="dropdown-content">
-            <p onclick="getJson_0()" id="price_0"><b>1K以下</b></p>
-            <p onclick="getJson_1()" id="price_0"><b>1K~2K</b></p>
-            <p onclick="getJson_2()" id="price_0"><b>2K~3k</b></p>
-        </div>
-    </div>
-</ul>
-<!-- 导航栏结束 -->
-<!-- 这里存放的是从数据库读取数据从操作 -->
 <div class="control-panel">
     <div class="control-entry">
         <label><b>选择工作地点：</b></label>
@@ -23,22 +13,70 @@
             <!-- JS 调用入口 -->
         </div>
     </div>
+    <div class="input-item">
+        <div class="input-item-prepend"><span class="input-item-text" >时长  </span></div>
+        <input id='t' type="text" value = "30" >
+        <h3 style='color:grey'>(分钟)通勤时间<br></h3>
 </div>
-<div class="control-panel-traffic">
-    <div class="control-entry-traffic" style="width:350px">
-        <label><b>选择通勤方式:</b> </label>
-        <div class="control-input" />
-        <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" /> 公交+地铁
-        <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" checked /> 地铁
-        <input type="button" name="vehicle" value="搜索" class="btn" onClick="searchtraffic()" checked />
+
+    <div class="input-item">
+        <div class="input-item-prepend">
+            <label class="input-item-text">出行方式</label>
+        </div>
+        <select iname="v" id="v">
+            <option selected value="SUBWAY,BUS">地铁+公交</option>
+            <option value="SUBWAY">地铁</option>
+            <option value="BUS">公交</option>
+        </select>
+        <input id="search" type="button" class="btn" value="查询" />
+        <input id="clear" type="button" class="btn" value="清除" />
     </div>
+    
+
+
+    <div class="input-item">
+        <div class="input-item-prepend">
+            <label class="input-item-text">价格区间</label>
+        </div>
+        <select id="price">
+            <option selected value="0">1K以下</option>
+            <option value="1">1K-2K</option>
+            <option value="2">2K-3K</option>
+            <option value="3">3K以上</option>
+        </select>
+        <input id="search-price" type="button" class="btn" value="查询" />
+        <input id="clear-price" type="button" class="btn" value="清除" />
+    </div>
+
+    <div class="input-item">
+        <div class="input-item-prepend">
+            <label class="input-item-text">房源切换</label>
+        </div>
+        <select id="from_local">
+            <option selected value="ALL">混合房源</option>
+            <option value="AJ">安居客</option>
+            <option value="TC">58同城</option>
+        </select>
+    </div>
+
 </div>
-</div>
-<!-- 加载地图JSAPI脚本 -->
+
 
 <script>
-    //创建地图
-    //window.load = loadRentLocationByFile()
+    var isChanged = false;
+    $(function () {
+        $('.single-slider').jRange({
+            from: 1,
+            to: 120,
+            step: 1,
+            scale: [],
+            format: '%s',
+            width: 400,
+            showLabels: true,
+            showScale: true
+        });
+    });
+
     var map = new AMap.Map("container", {
         resizeEnable: true,
         zoomEnable: true,
@@ -78,12 +116,10 @@
 
     function searchtraffic() {
         workAddress = document.getElementById("work-location").value;
-        loadWorkLocation()
     }
 
     function workLocationSelected(e) {
         workAddress = e.poi.name;
-        loadWorkLocation();
     }
 
     function loadWorkMarker(x, y, locationName) {
@@ -114,7 +150,14 @@
                 x = geocode.location.getLng();
                 y = geocode.location.getLat();
                 loadWorkMarker(x, y);
-                loadWorkRange(x, y, 60, "#3f67a5", vehicle);
+                var t = parseInt($("#t").val());
+                var vehicle = $("#v").val();
+                if (t>60||t<1){
+                    alert("时间最长支持60分钟哦!");
+                    return
+                }
+                debugger;
+                loadWorkRange(x, y, t, "#3f67a5", vehicle);
                 // 坐标-x,坐标-y,时长,颜色,
                 map.setZoomAndCenter(12, [x, y]);
                 window.city_name = result.geocodes[0].addressComponent.city.replace("市", ""); //将城市写成全局变量
@@ -160,7 +203,8 @@
                 rentMarkerArray.push(rentMarker);
                 rentMarker.content =
                     "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
-                    "'>" + spiderData["title"] + "</a><div><div>价格:"+spiderData["price"]+"元 (该价格仅为参考价格以跳转页面为准)</div>"
+                    "'>" + spiderData["title"] + "</a><div><div>价格:" + spiderData["price"] +
+                    "元 (该价格仅为参考价格以跳转页面为准)</div>"
                 rentMarker.on('click', function (e) {
                     infoWindow.setContent(e.target.content);
                     infoWindow.open(map, e.target.getPosition());
@@ -223,7 +267,7 @@
                         alert("数据请求失败 请刷新后重试")
                     }
                 },
-                success:alert("一大波数据正在向你赶来"),
+                success: alert("一大波数据正在向你赶来"),
             })
         }
     }
@@ -246,7 +290,7 @@
                         alert("数据请求失败 请刷新后重试")
                     }
                 },
-                success:alert("一大波数据正在向你赶来"),
+                success: alert("一大波数据正在向你赶来"),
             })
         }
     }
@@ -269,19 +313,13 @@
                         alert("数据请求失败 请刷新后重试")
                     }
                 },
-                success:alert("一大波数据正在向你赶来"),
+                success: alert("一大波数据正在向你赶来"),
             })
         }
     }
+    $('#search').on('click', loadWorkLocation);
+    // $('#v').on('change', getArriveRange);
+    $('#clear').on('click', delWorkLocation);
+    $('#clear-price').on('click', delRentLocation);
 </script>
-<style>
-    .navigation {
-        background-color:rgb(51,51,51);
-    }
-
-    .btn {
-        border: none;
-        margin-left: 2px;
-    }
-</style>
 {% endblock %}

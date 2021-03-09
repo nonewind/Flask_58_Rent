@@ -1,0 +1,293 @@
+<!--
+ * @Author: Ziheng
+ * @Date: 2021-03-09 14:11:34
+ * @LastEditTime: 2021-03-09 14:20:08
+-->
+{% extends "base_GD.html" %} {% block content %}
+<div id="container"></div>
+<!-- 导航栏 -->
+<ul class="navigation">
+    <li><a class="active" href="/index"><b>主页</b></a></li>
+    <!-- 这里未来会添加上更多的城市和价格选项 -->
+    <div class="dropdown">
+        <a href="#" class="dropbtn"><b>价格区间</b></a>
+        <div class="dropdown-content">
+            <p onclick="getJson_0()" id="price_0"><b>1K以下</b></p>
+            <p onclick="getJson_1()" id="price_0"><b>1K~2K</b></p>
+            <p onclick="getJson_2()" id="price_0"><b>2K~3k</b></p>
+        </div>
+    </div>
+</ul>
+<!-- 导航栏结束 -->
+<!-- 这里存放的是从数据库读取数据从操作 -->
+<div class="control-panel">
+    <div class="control-entry">
+        <label><b>选择工作地点：</b></label>
+        <div class="control-input">
+            <input id="work-location" type="text" />
+            <!-- JS 调用入口 -->
+        </div>
+    </div>
+</div>
+<div class="control-panel-traffic">
+    <div class="control-entry-traffic" style="width:350px">
+        <label><b>选择通勤方式:</b> </label>
+        <div class="control-input" />
+        <input type="radio" name="vehicle" value="SUBWAY,BUS" onClick="takeBus(this)" /> 公交+地铁
+        <input type="radio" name="vehicle" value="SUBWAY" onClick="takeSubway(this)" checked /> 地铁
+        <input type="button" name="vehicle" value="搜索" class="btn" onClick="searchtraffic()" checked />
+    </div>
+</div>
+</div>
+<!-- 加载地图JSAPI脚本 -->
+
+<script>
+    //创建地图
+    //window.load = loadRentLocationByFile()
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        zoomEnable: true,
+        zoom: 11
+    });
+
+    var scale = new AMap.Scale();
+
+    map.addControl(scale);
+
+    var arrivalRange = new AMap.ArrivalRange();
+    var x, y, t, vehicle = "SUBWAY,BUS";
+    var workAddress, workMarker;
+    var rentMarkerArray = [];
+    var polygonArray = [];
+    var amapTransfer;
+
+    var infoWindow = new AMap.InfoWindow({
+        offset: new AMap.Pixel(0, -30)
+    });
+
+    var auto = new AMap.Autocomplete({
+        input: "work-location"
+    });
+
+    AMap.event.addListener(auto, "select", workLocationSelected);
+
+    function takeBus(radio) {
+        vehicle = radio.value;
+        // loadWorkLocation()
+    }
+
+    function takeSubway(radio) {
+        vehicle = radio.value;
+        // loadWorkLocation()
+    }
+
+    function searchtraffic() {
+        workAddress = document.getElementById("work-location").value;
+        loadWorkLocation()
+    }
+
+    function workLocationSelected(e) {
+        workAddress = e.poi.name;
+        loadWorkLocation();
+    }
+
+    function loadWorkMarker(x, y, locationName) {
+        workMarker = new AMap.Marker({
+            map: map,
+            title: locationName,
+            icon: '/static/img/ZZ.png',
+            position: [x, y]
+        });
+    }
+
+
+
+    function delWorkLocation() {
+        if (polygonArray) map.remove(polygonArray);
+        if (workMarker) map.remove(workMarker);
+        polygonArray = [];
+    }
+
+    function loadWorkLocation() {
+        delWorkLocation();
+        var geocoder = new AMap.Geocoder({
+            radius: 1000
+        });
+        geocoder.getLocation(workAddress, function (status, result) {
+            if (status === "complete" && result.info === 'OK') {
+                var geocode = result.geocodes[0];
+                x = geocode.location.getLng();
+                y = geocode.location.getLat();
+                loadWorkMarker(x, y);
+                loadWorkRange(x, y, 60, "#3f67a5", vehicle);
+                // 坐标-x,坐标-y,时长,颜色,
+                map.setZoomAndCenter(12, [x, y]);
+                window.city_name = result.geocodes[0].addressComponent.city.replace("市", ""); //将城市写成全局变量
+            }
+        });
+    }
+
+    function loadWorkRange(x, y, t, color, v) {
+        arrivalRange.search([x, y], t, function (status, result) {
+            if (result.bounds) {
+                for (var i = 0; i < result.bounds.length; i++) {
+                    var polygon = new AMap.Polygon({
+                        map: map,
+                        fillColor: color,
+                        fillOpacity: "0.4",
+                        strokeColor: color,
+                        strokeOpacity: "0.8",
+                        strokeWeight: 1
+                    });
+                    polygon.setPath(result.bounds[i]);
+                    polygonArray.push(polygon);
+                }
+            }
+        }, {
+            policy: v
+        });
+    }
+
+    function addMarkerByAddress(spiderData) {
+        var geocoder = new AMap.Geocoder({
+            radius: 1000
+        });
+
+        geocoder.getLocation(window.city_name + spiderData["title"], function (status, result) {
+            if (status === "complete" && result.info === 'OK') {
+                var geocode = result.geocodes[0];
+                rentMarker = new AMap.Marker({
+                    map: map,
+                    title: window.city_name + "市" + spiderData["title"],
+                    icon: '/static/img/ZZ_1.png',
+                    position: [geocode.location.getLng(), geocode.location.getLat()]
+                });
+                rentMarkerArray.push(rentMarker);
+                rentMarker.content =
+                    "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
+                    "'>" + spiderData["title"] + "</a><div><div>价格:" + spiderData["price"] +
+                    "元 (该价格仅为参考价格以跳转页面为准)</div>"
+                rentMarker.on('click', function (e) {
+                    infoWindow.setContent(e.target.content);
+                    infoWindow.open(map, e.target.getPosition());
+                    if (amapTransfer) amapTransfer.clear();
+                    amapTransfer = new AMap.Transfer({
+                        map: map,
+                        policy: AMap.TransferPolicy.LEAST_TIME,
+                        panel: 'transfer-panel'
+                    });
+                    amapTransfer.search([{
+                        keyword: workAddress
+                    }, {
+                        keyword: spiderData
+                    }], function (status, result) {})
+                });
+            }
+        })
+    }
+
+    function delWorkLocation() {
+        if (polygonArray) map.remove(polygonArray);
+        if (workMarker) map.remove(workMarker);
+        polygonArray = [];
+    }
+
+    function delRentLocation() {
+        if (rentMarkerArray) map.remove(rentMarkerArray);
+        rentMarkerArray = [];
+    }
+
+
+    function loadRentLocationByFile(data) {
+        delRentLocation();
+        if (data == undefined || data.length == 0) {
+            alert("没有查询到相关数据 有可能是该城市还没有支持")
+        } else {
+            var spider_data = data; {
+                for (var j = 0, len = spider_data.length; j < len; j++) {
+                    addMarkerByAddress(spider_data[j]);
+                };
+            };
+        };
+    };
+
+    function getJson_0() {
+        if (window.city_name == "" || window.city_name == undefined) {
+            alert("请选择工作地点")
+        } else {
+            city = window.city_name
+            price_level_post = 0
+            $.ajax({
+                type: "post",
+                url: "rentsData?&city=" + city + "&level=" + price_level_post,
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText)["data"];
+                        loadRentLocationByFile(return_data)
+
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
+                    }
+                },
+                success: alert("一大波数据正在向你赶来"),
+            })
+        }
+    }
+
+    function getJson_1() {
+        if (window.city_name == "" || window.city_name == undefined) {
+            alert("请选择工作地点")
+        } else {
+            city = window.city_name
+            price_level_post = 1
+            $.ajax({
+                type: "post",
+                url: "rentsData?&city=" + city + "&level=" + price_level_post,
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText)["data"];
+                        loadRentLocationByFile(return_data)
+
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
+                    }
+                },
+                success: alert("一大波数据正在向你赶来"),
+            })
+        }
+    }
+
+    function getJson_2() {
+        if (window.city_name == "" || window.city_name == undefined) {
+            alert("请选择工作地点")
+        } else {
+            city = window.city_name
+            price_level_post = 2
+            $.ajax({
+                type: "post",
+                url: "rentsData?&city=" + city + "&level=" + price_level_post,
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText)["data"];
+                        loadRentLocationByFile(return_data)
+
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
+                    }
+                },
+                success: alert("一大波数据正在向你赶来"),
+            })
+        }
+    }
+</script>
+<style>
+    .navigation {
+        background-color: rgb(51, 51, 51);
+    }
+
+    .btn {
+        border: none;
+        margin-left: 2px;
+    }
+</style>
+{% endblock %}
