@@ -115,6 +115,7 @@
                 y = geocode.location.getLat();
                 loadWorkMarker(x, y);
                 loadWorkRange(x, y, 60, "#3f67a5", vehicle);
+                // 坐标-x,坐标-y,时长,颜色,
                 map.setZoomAndCenter(12, [x, y]);
                 window.city_name = result.geocodes[0].addressComponent.city.replace("市", ""); //将城市写成全局变量
             }
