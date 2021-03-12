@@ -1,33 +1,52 @@
-## 快点回家
-一款基于Flask、高德开放api的可视化地图租房规划web
-
+<!--
+ * @Author: Ziheng
+ * @Date: 2021-01-11 10:19:28
+ * @LastEditTime: 2021-03-12 16:19:37
+-->
+## 🕸🕸🕸🕸 快点回家 🕸🕸🕸🕸
 **愿你在陌生冰冷的城市里有一盏属于自己的灯**
-[预览地址](http://map.ziheng.xyz)~~pc/pad浏览获得最好体验~~
+- 一款基于Flask、高德开放api的可视化地图租房规划
+- 快速筛选基于自己的心里价位 租房类型 上下班路线规划 
+
+**项目正在进行中 预览可能与实际代码产生页面有区别**
+[预览地址](http://map.ziheng.xyz)
 
 
-声明：本项目中的，关于高德API和部分JS代码来自于[蓝桥云课](https://www.lanqiao.cn/courses/599)
-- Flask超级小白教程:http://www.pythondoc.com/flask-mega-tutorial/index.html
-- 云部署 Flask + WSGI + Nginx 详解:https://www.cnblogs.com/Ray-liang/p/4173923.html
+**租房数据来自于互联网公开数据 涉及金钱交易时 请注意自身财产安全**
+
 - 前端采用Bootstrap 后端采用Flask 数据库采用Mongo
 
-## 致谢
+## 🕸🕸🕸致谢🕸🕸🕸
 - JianboWu 感谢他提供的Bootstrap Studio激活码
-### Demo展示
+### 🕸🕸Demo展示🕸🕸
 - 首页
-![img](/img/index_demo.png)****
+![img](/img/index_demo.png)
 
 - 租房页面
 ![img](/img/Index_demo_1.gif)
 
-### 项目规划
-- [x] 抓取并展示58的租房数据 初步完成项目构架
+### 🕸🕸🕸🕸🕸项目规划🕸🕸🕸🕸🕸
+#### 🕸完成🕸
+- [x] 抓取并展示**某同城**的租房数据 初步完成项目构架
 - [x] 定时清理数据库冗余数据
-~~对于多数据源 这个会慢慢更新~~
-- [ ] 对于租房数据的细分 例如：1. 合租/整租 2.个人房源/中介房源(可信度不高)
-- [ ] 抓取并展示安居客的租房数据
-### 部署教程
+#### 🕸正在进行🕸
+- [ ] 优化前端展示
+  - [x] 聚合筛选结果
+  - [x] 由上部导航栏 改为左侧导航栏
+  - [x] 增加多个筛选条件
+  - [ ] 点击标记点 左侧导航栏展示房源详细信息
+- [ ] 爬虫部分
+  - [ ] 抓取速度优化 改为~~分布式爬虫~~一个价格只抓2k信息
+  - [ ] 删除库内冗余数据
+- [ ] Flask
+  - [ ] 没想好
+#### 🕸规划🕸
+- [ ] 对于租房数据的细分
+  - [ ] 整租或者单间
+- [ ] 房源增加**某居客**
+### 🕸🕸🕸🕸部署教程🕸🕸🕸🕸
 **爬虫强依赖于定时任务**
-### 服务器端部署
+### 🕸🕸服务器端部署🕸🕸
 - 找个ssh连接工具 连接上你的服务器
 - 安装[宝塔面板](https://www.bt.cn/bbs/thread-19376-1-1.html)
 - 根据命令行 复制输出的面板管理网址 登录面板
@@ -43,6 +62,7 @@ git clone https://github.com/nonewind/Flask_58_Rent.git && cd Flask_58_Rent
 ```
 python -m venv pyvenv && pyvenv/bin/pip install -r requirements.txt
 ```
+- 云部署 Flask + WSGI + Nginx 详解:https://www.cnblogs.com/Ray-liang/p/4173923.html
 - 在宝塔的网站设置中添加如下内容
 ```
 server {
