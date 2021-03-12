@@ -7,7 +7,7 @@ import json
 client = MongoClient(app.config["MONGO"], connect=False)
 db = client["Fuck_58"]
 
-with open("yyy.json",'r',encoding='utf8') as ff:
+with open("tt.json",'r',encoding='utf8') as ff:
     data_json = json.loads(ff.read())
 
 @app.route('/')
@@ -39,7 +39,7 @@ def rentsData():
     # 这里不需要验证城市名称 这个名称是由高德查询返回的
     price_level = int(request.args.get("level"))
     list_return = []
-
+    """
     if price_level == 0:
         list_data = []
         data_0 = coll.find({"cityname": cityname, "priceLevel": 1})
@@ -63,8 +63,8 @@ def rentsData():
         list_return.append(oo_data)
 
     return ({"data": list_return})
-
-    #return data_json
+    """
+    return data_json
 
 @app.route("/seachCity", methods=['GET'])
 def seachCity():

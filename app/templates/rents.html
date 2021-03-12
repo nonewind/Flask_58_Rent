@@ -1,7 +1,7 @@
 <!--
  * @Author: Ziheng
  * @Date: 2021-01-11 10:19:48
- * @LastEditTime: 2021-03-12 11:53:11
+ * @LastEditTime: 2021-03-12 15:50:03
 -->
 {% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
@@ -101,6 +101,32 @@
     var polygonArray = []; //范围矩阵点
     var amapTransfer;
     var path = [];
+    var cluster = [];
+    var _renderClusterMarker = function (context) {
+        var count = polygonArray.length;
+        var count = rentMarkerArray.length;
+        var factor = Math.pow(context.count / count, 1 / 18);
+        var div = document.createElement('div');
+        var Hue = 180 - factor * 180;
+        var bgColor = 'hsla(' + Hue + ',100%,50%,0.7)';
+        var fontColor = 'hsla(' + Hue + ',100%,20%,1)';
+        var borderColor = 'hsla(' + Hue + ',100%,40%,1)';
+        var shadowColor = 'hsla(' + Hue + ',100%,50%,1)';
+        div.style.backgroundColor = bgColor;
+        var size = Math.round(30 + Math.pow(context.count / count, 1 / 5) * 20);
+        div.style.width = div.style.height = size + 'px';
+        div.style.border = 'solid 1px ' + borderColor;
+        div.style.borderRadius = size / 2 + 'px';
+        div.style.boxShadow = '0 0 1px ' + shadowColor;
+        div.innerHTML = context.count;
+        div.style.lineHeight = size + 'px';
+        div.style.color = fontColor;
+        div.style.fontSize = '14px';
+        div.style.textAlign = 'center';
+        context.marker.setOffset(new AMap.Pixel(-size / 2, -size / 2));
+        context.marker.setContent(div)
+    };
+
 
     var infoWindow = new AMap.InfoWindow({
         offset: new AMap.Pixel(0, -30)
@@ -187,13 +213,11 @@
                     });
                     polygon.setPath(result.bounds[i]);
                     polygonArray.push(polygon);
+                    //把数组里的坐标拿出来 写入path中 为下面的判断是否在标记内作准备
                     for (var line = 0; line < result.bounds[i][0].length; line++) {
                         oo.push([result.bounds[i][0][line].getLng(), result.bounds[i][0][line].getLat()])
                     };
                     path.push(oo);
-                    // for (var xxxx = 0; xxxx < result.bounds[i][0].length; xxxx++) {
-                    //     path.push([result.bounds[i][0][xxxx].getLng(),result.bounds[i][0][xxxx].getLat()])
-                    // }
                 }
             }
         }, {
@@ -215,10 +239,11 @@
                         rentMarker = new AMap.Marker({
                             map: map,
                             title: window.city_name + "市" + spiderData["title"],
-                            //icon: '/static/img/ZZ_1.png',
+                            // icon: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
                             position: position
                         });
                         rentMarkerArray.push(rentMarker);
+                        addcluster();
                         rentMarker.content =
                             "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
                             "'>" + spiderData["title"] + "</a><div><div>价格:" + spiderData["price"] +
@@ -242,6 +267,17 @@
                     }
                 }
             }
+        })
+    }
+
+    function addcluster() {
+        map.plugin(["AMap.MarkerClusterer"], function () {
+            cluster = new AMap.MarkerClusterer(map, rentMarkerArray, {
+                gridSize: 80,
+                minClusterSize:3,
+                maxZoom: 20,
+                renderClusterMarker: _renderClusterMarker
+            });
         })
     }
 
