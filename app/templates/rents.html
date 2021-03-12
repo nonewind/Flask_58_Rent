@@ -1,23 +1,23 @@
 <!--
  * @Author: Ziheng
  * @Date: 2021-01-11 10:19:48
- * @LastEditTime: 2021-03-09 16:52:25
+ * @LastEditTime: 2021-03-12 11:53:11
 -->
 {% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
 <div class="control-panel">
     <div class="control-entry">
-        <label><b>选择工作地点：</b></label>
+        <label><b>选择工作地点</b></label>
         <div class="control-input">
             <input id="work-location" type="text" />
             <!-- JS 调用入口 -->
         </div>
     </div>
     <div class="input-item">
-        <div class="input-item-prepend"><span class="input-item-text" >时长  </span></div>
-        <input id='t' type="text" value = "30" >
+        <div class="input-item-prepend"><span class="input-item-text">时长 </span></div>
+        <input id='t' type="text" value="30">
         <h3 style='color:grey'>(分钟)通勤时间<br></h3>
-</div>
+    </div>
 
     <div class="input-item">
         <div class="input-item-prepend">
@@ -31,9 +31,27 @@
         <input id="search" type="button" class="btn" value="查询" />
         <input id="clear" type="button" class="btn" value="清除" />
     </div>
-    
+    <div class="input-item">
+        <div class="input-item-prepend">
+            <label class="input-item-text">房源切换</label>
+        </div>
+        <select id="from_local">
+            <option selected value="0">混合房源</option>
+            <option value="1">安居客</option>
+            <option value="2">58同城</option>
+        </select>
+    </div>
 
-
+    <div class="input-item">
+        <div class="input-item-prepend">
+            <label class="input-item-text">租房类型</label>
+        </div>
+        <select id="from_home">
+            <option selected value="0">混合不限制</option>
+            <option value="1">单间</option>
+            <option value="2">整租</option>
+        </select>
+    </div>
     <div class="input-item">
         <div class="input-item-prepend">
             <label class="input-item-text">价格区间</label>
@@ -46,17 +64,6 @@
         </select>
         <input id="search-price" type="button" class="btn" value="查询" />
         <input id="clear-price" type="button" class="btn" value="清除" />
-    </div>
-
-    <div class="input-item">
-        <div class="input-item-prepend">
-            <label class="input-item-text">房源切换</label>
-        </div>
-        <select id="from_local">
-            <option selected value="ALL">混合房源</option>
-            <option value="AJ">安居客</option>
-            <option value="TC">58同城</option>
-        </select>
     </div>
 
 </div>
@@ -91,8 +98,9 @@
     var x, y, t, vehicle = "SUBWAY,BUS";
     var workAddress, workMarker;
     var rentMarkerArray = [];
-    var polygonArray = [];
+    var polygonArray = []; //范围矩阵点
     var amapTransfer;
+    var path = [];
 
     var infoWindow = new AMap.InfoWindow({
         offset: new AMap.Pixel(0, -30)
@@ -152,11 +160,10 @@
                 loadWorkMarker(x, y);
                 var t = parseInt($("#t").val());
                 var vehicle = $("#v").val();
-                if (t>60||t<1){
+                if (t > 60 || t < 1) {
                     alert("时间最长支持60分钟哦!");
                     return
                 }
-                debugger;
                 loadWorkRange(x, y, t, "#3f67a5", vehicle);
                 // 坐标-x,坐标-y,时长,颜色,
                 map.setZoomAndCenter(12, [x, y]);
@@ -169,6 +176,7 @@
         arrivalRange.search([x, y], t, function (status, result) {
             if (result.bounds) {
                 for (var i = 0; i < result.bounds.length; i++) {
+                    var oo = [];
                     var polygon = new AMap.Polygon({
                         map: map,
                         fillColor: color,
@@ -179,6 +187,13 @@
                     });
                     polygon.setPath(result.bounds[i]);
                     polygonArray.push(polygon);
+                    for (var line = 0; line < result.bounds[i][0].length; line++) {
+                        oo.push([result.bounds[i][0][line].getLng(), result.bounds[i][0][line].getLat()])
+                    };
+                    path.push(oo);
+                    // for (var xxxx = 0; xxxx < result.bounds[i][0].length; xxxx++) {
+                    //     path.push([result.bounds[i][0][xxxx].getLng(),result.bounds[i][0][xxxx].getLat()])
+                    // }
                 }
             }
         }, {
@@ -194,43 +209,51 @@
         geocoder.getLocation(window.city_name + spiderData["title"], function (status, result) {
             if (status === "complete" && result.info === 'OK') {
                 var geocode = result.geocodes[0];
-                rentMarker = new AMap.Marker({
-                    map: map,
-                    title: window.city_name + "市" + spiderData["title"],
-                    icon: '/static/img/ZZ_1.png',
-                    position: [geocode.location.getLng(), geocode.location.getLat()]
-                });
-                rentMarkerArray.push(rentMarker);
-                rentMarker.content =
-                    "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
-                    "'>" + spiderData["title"] + "</a><div><div>价格:" + spiderData["price"] +
-                    "元 (该价格仅为参考价格以跳转页面为准)</div>"
-                rentMarker.on('click', function (e) {
-                    infoWindow.setContent(e.target.content);
-                    infoWindow.open(map, e.target.getPosition());
-                    if (amapTransfer) amapTransfer.clear();
-                    amapTransfer = new AMap.Transfer({
-                        map: map,
-                        policy: AMap.TransferPolicy.LEAST_TIME,
-                        panel: 'transfer-panel'
-                    });
-                    amapTransfer.search([{
-                        keyword: workAddress
-                    }, {
-                        keyword: spiderData
-                    }], function (status, result) {})
-                });
+                var position = [geocode.location.getLng(), geocode.location.getLat()];
+                for (xxxxxx = 0; xxxxxx < path.length; xxxxxx++) {
+                    if (AMap.GeometryUtil.isPointInRing(position, path[xxxxxx])) {
+                        rentMarker = new AMap.Marker({
+                            map: map,
+                            title: window.city_name + "市" + spiderData["title"],
+                            //icon: '/static/img/ZZ_1.png',
+                            position: position
+                        });
+                        rentMarkerArray.push(rentMarker);
+                        rentMarker.content =
+                            "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
+                            "'>" + spiderData["title"] + "</a><div><div>价格:" + spiderData["price"] +
+                            "元 (该价格仅为参考价格以跳转页面为准)</div>"
+                        rentMarker.on('click', function (e) {
+                            infoWindow.setContent(e.target.content);
+                            infoWindow.open(map, e.target.getPosition());
+                            if (amapTransfer) amapTransfer.clear();
+                            amapTransfer = new AMap.Transfer({
+                                map: map,
+                                policy: AMap.TransferPolicy.LEAST_TIME,
+                                panel: 'transfer-panel'
+                            });
+                            amapTransfer.search([{
+                                keyword: workAddress
+                            }, {
+                                keyword: spiderData
+                            }], function (status, result) {})
+                        });
+                        break;
+                    }
+                }
             }
         })
     }
 
     function delWorkLocation() {
+        // 删除工作地点并清空标记点
         if (polygonArray) map.remove(polygonArray);
         if (workMarker) map.remove(workMarker);
         polygonArray = [];
     }
 
     function delRentLocation() {
+        // 清空标记点
         if (rentMarkerArray) map.remove(rentMarkerArray);
         rentMarkerArray = [];
     }
@@ -249,15 +272,19 @@
         };
     };
 
-    function getJson_0() {
+    function getJson() {
         if (window.city_name == "" || window.city_name == undefined) {
             alert("请选择工作地点")
         } else {
             city = window.city_name
-            price_level_post = 0
+            var price_level_post = $("#price").val();
+            var from_home = $("#from_home").val();
+            var from_local = $("#from_local").val();
+            var url = "rentsData?&city=" + city + "&level=" + price_level_post + "&from_home=" + from_home +
+                "&from_local=" + from_home;
             $.ajax({
                 type: "post",
-                url: "rentsData?&city=" + city + "&level=" + price_level_post,
+                url: url,
                 complete: function (response) {
                     if (response.status == 200) {
                         return_data = JSON.parse(response.responseText)["data"];
@@ -272,54 +299,10 @@
         }
     }
 
-    function getJson_1() {
-        if (window.city_name == "" || window.city_name == undefined) {
-            alert("请选择工作地点")
-        } else {
-            city = window.city_name
-            price_level_post = 1
-            $.ajax({
-                type: "post",
-                url: "rentsData?&city=" + city + "&level=" + price_level_post,
-                complete: function (response) {
-                    if (response.status == 200) {
-                        return_data = JSON.parse(response.responseText)["data"];
-                        loadRentLocationByFile(return_data)
 
-                    } else {
-                        alert("数据请求失败 请刷新后重试")
-                    }
-                },
-                success: alert("一大波数据正在向你赶来"),
-            })
-        }
-    }
-
-    function getJson_2() {
-        if (window.city_name == "" || window.city_name == undefined) {
-            alert("请选择工作地点")
-        } else {
-            city = window.city_name
-            price_level_post = 2
-            $.ajax({
-                type: "post",
-                url: "rentsData?&city=" + city + "&level=" + price_level_post,
-                complete: function (response) {
-                    if (response.status == 200) {
-                        return_data = JSON.parse(response.responseText)["data"];
-                        loadRentLocationByFile(return_data)
-
-                    } else {
-                        alert("数据请求失败 请刷新后重试")
-                    }
-                },
-                success: alert("一大波数据正在向你赶来"),
-            })
-        }
-    }
-    $('#search').on('click', loadWorkLocation);
-    // $('#v').on('change', getArriveRange);
-    $('#clear').on('click', delWorkLocation);
-    $('#clear-price').on('click', delRentLocation);
+    $('#search').on('click', loadWorkLocation); // 搜索地点
+    $('#clear').on('click', delWorkLocation); // 清除搜索地点
+    $('#clear-price').on('click', delRentLocation); // 搜索房源信息
+    $('#search-price').on('click', getJson); // 清除搜索房源信息
 </script>
 {% endblock %}

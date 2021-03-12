@@ -7,6 +7,8 @@ import json
 client = MongoClient(app.config["MONGO"], connect=False)
 db = client["Fuck_58"]
 
+with open("yyy.json",'r',encoding='utf8') as ff:
+    data_json = json.loads(ff.read())
 
 @app.route('/')
 @app.route('/index')
@@ -37,6 +39,7 @@ def rentsData():
     # 这里不需要验证城市名称 这个名称是由高德查询返回的
     price_level = int(request.args.get("level"))
     list_return = []
+
     if price_level == 0:
         list_data = []
         data_0 = coll.find({"cityname": cityname, "priceLevel": 1})
@@ -55,12 +58,13 @@ def rentsData():
         list_data.extend(data_0)
         data_1 = coll.find({"cityname": cityname, "priceLevel": 6})
         list_data.extend(data_1)
-
     for line in list_data:
         oo_data = {"title": line['title'], "url": line["url"], "price": line["price"]}
         list_return.append(oo_data)
+
     return ({"data": list_return})
 
+    #return data_json
 
 @app.route("/seachCity", methods=['GET'])
 def seachCity():
@@ -116,7 +120,10 @@ def admin():
 @app.errorhandler(404)
 def page_not_found(xx):
     return ("""
-    <h1>404 Page Not Found</h1>
-  <p>What you were looking for is just not there.
-  <p><a href="/index">go somewhere nice</a>
+    <script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js" charset="utf-8" homePageUrl="index" homePageName="回到我的主页"></script>
+    """)
+@app.errorhandler(500)
+def page_not_found(xx):
+    return ("""
+    <script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/hybrid/app/500/search_children.js" charset="utf-8" homePageUrl="index" homePageName="回到我的主页"></script>
     """)
