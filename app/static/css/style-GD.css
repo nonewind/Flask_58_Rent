@@ -1,11 +1,9 @@
-
 #container {
     width: 100%;
     height: 100%;
 }
 
 .control-panel {
-    top:40px;
     left: 20px;
     margin-bottom: 40px;
     display: flex;
@@ -26,6 +24,14 @@
     flex: 1 1 auto;
     padding: 0.75rem 1.25rem;
     z-index: 1;
+    max-height: 1000;
+    transition: max-height 0.3s linear;
+    &.up {
+        max-height: 0;
+    }
+    &.down {
+        max-height: 1000px;
+    }
 }
 
 .input-item {
@@ -147,169 +153,48 @@ select {
     text-decoration: none
 }
 
-
-/* 
-.control-panel {
-    position: absolute;
-    top: 4px;
-    left: 180px;
-} */
-
-/* .control-panel-traffic {
-    position: absolute;
-    top: 4px;
-    left: 500px;
-    width: 500px;
-} */
-
-/* .control-entry {
-    width: 300px;
-    background-color: #333;
-    font-family: fantasy, sans-serif;
-    text-align: left;
-    color: white;
-    overflow: auto;
-    padding: 11px;
-    margin-bottom: 10px;
-}
-
-.control-entry-traffic {
-    width: 300px;
-    background-color: #333;
-    font-family: fantasy, sans-serif;
-    text-align: left;
-    color: white;
-    overflow: auto;
-    padding: 11px;
-    margin-bottom: 10px;
-}
-
-.control-input {
-    margin-left: 120px;
-}
-
-.control-input input[type="text"] {
-    position: relative;
-    width: 180px;
-    top: 2px;
-}
-
-.control-panel label {
-    float: left;
-    width: 120px;
-}
-
-.control-panel-traffic label {
-    float: left;
-    width: 120px;
-}
-
-#transfer-panel {
-    position: absolute;
-    background-color: white;
-    max-height: 80%;
-    overflow-y: auto;
-    top: 30px;
+.FYXX_hidden {
+    margin-top: -10px;
     left: 20px;
-    width: 250px;
-} */
-
-.select_style {
-    width: 240px;
-    height: 30px;
-    overflow: hidden;
-    background: url(../images/arrow.png) no-repeat 215px;
-    border: 1px solid #ccc;
-    -moz-border-radius: 5px;
-    /* Gecko browsers */
-    -webkit-border-radius: 5px;
-    /* Webkit browsers */
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
 }
 
-.select_style select {
-    padding: 5px;
-    background: transparent;
-    width: 268px;
-    font-size: 16px;
-    border: none;
-    height: 30px;
-    -webkit-appearance: none;
-    /*for Webkit browsers*/
+.FYXX_hidden h2 {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    min-width: 0;
+    width: auto;
 }
 
-
-/* 导航栏 */
-
-/* ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-
+.FYXX_hidden_img {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin: 0 auto;
+    justify-content: center;
+    /* 水平居中 */
+    background-color: black;
+    height: 15rem;
+    max-height: 20rem;
+    width: 15rem;
+    max-width: 20rem;
+    flex-direction: column;
 }
 
-li {
-    float: left;
+.FYXX_hidden h3 {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
 }
 
-li a,
-.dropbtn {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+.FYXX_hidden h3 p {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-top: -1.725rem;
+    margin-left: 3rem;
 }
-
-li a:hover,
-.dropdown:hover .dropbtn {
-    background-color: #111;
-}
-
-.dropdown {
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    position: relative;
-    z-index: 9999;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.div1 {
-    position: absolute;
-    z-index: 99999;
-}
-
-.div2 {
-    position: absolute;
-    z-index: 9999;
-    right: 10px;
-    top: 3px;
-}
-
-img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50px;
-} */

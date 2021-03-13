@@ -9,6 +9,7 @@ db = client["Fuck_58"]
 
 with open("tt.json",'r',encoding='utf8') as ff:
     data_json = json.loads(ff.read())
+print(len(data_json['data']))
 
 @app.route('/')
 @app.route('/index')

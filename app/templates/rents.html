@@ -1,27 +1,28 @@
 <!--
  * @Author: Ziheng
  * @Date: 2021-01-11 10:19:48
- * @LastEditTime: 2021-03-12 15:50:03
+ * @LastEditTime: 2021-03-13 14:25:58
 -->
 {% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
+<div id="panel"></div>
 <div class="control-panel">
     <div class="control-entry">
-        <label><b>选择工作地点</b></label>
+        <h2><b>选择工作地点</b></h2>
         <div class="control-input">
             <input id="work-location" type="text" />
             <!-- JS 调用入口 -->
         </div>
     </div>
     <div class="input-item">
-        <div class="input-item-prepend"><span class="input-item-text">时长 </span></div>
+        <div class="input-item-prepend"><span class="input-item-text"><b>时长</b></span></div>
         <input id='t' type="text" value="30">
         <h3 style='color:grey'>(分钟)通勤时间<br></h3>
     </div>
 
     <div class="input-item">
         <div class="input-item-prepend">
-            <label class="input-item-text">出行方式</label>
+            <label class="input-item-text"><b>出行方式</b></label>
         </div>
         <select iname="v" id="v">
             <option selected value="SUBWAY,BUS">地铁+公交</option>
@@ -33,7 +34,7 @@
     </div>
     <div class="input-item">
         <div class="input-item-prepend">
-            <label class="input-item-text">房源切换</label>
+            <label class="input-item-text"><b>房源切换</b></label>
         </div>
         <select id="from_local">
             <option selected value="0">混合房源</option>
@@ -44,7 +45,7 @@
 
     <div class="input-item">
         <div class="input-item-prepend">
-            <label class="input-item-text">租房类型</label>
+            <label class="input-item-text"><b>租房类型</b></label>
         </div>
         <select id="from_home">
             <option selected value="0">混合不限制</option>
@@ -54,7 +55,7 @@
     </div>
     <div class="input-item">
         <div class="input-item-prepend">
-            <label class="input-item-text">价格区间</label>
+            <label class="input-item-text"><b>价格区间</b></label>
         </div>
         <select id="price">
             <option selected value="0">1K以下</option>
@@ -65,11 +66,43 @@
         <input id="search-price" type="button" class="btn" value="查询" />
         <input id="clear-price" type="button" class="btn" value="清除" />
     </div>
+    <div class="FYXX_hidden" id="FYXX">
+        <h2><b>房源信息</b></h2>
+        <div class="FYXX_hidden_img">
+            <img>
+        </div>
+        <div class="input-item">
+            <div class="input-item-prepend">
+                <label class="input-item-text"><b>房源信息</b></label>
+                <span style="font-size: 16px;" id="home_name">xxxxxxxxxxx</span>
+            </div>
+        </div>
+        <div class="input-item">
+            <div class="input-item-prepend">
+                <label class="input-item-text"><b>房源价格</b></label>
+                <span style="font-size: 16px;" id="home_price">xxxxxxxxxxx</span>
+            </div>
+        </div>
+        <div class="input-item">
+            <div class="input-item-prepend">
+                <label class="input-item-text"><b>房源类型</b></label>
+                <span style="font-size: 16px;" id="home_class">xxxxxxxxxxx</span>
+            </div>
+        </div>
+        <div class="input-item">
+            <div class="input-item-prepend">
+                <label class="input-item-text"><b>房源来源</b></label>
+                <span style="font-size: 16px;" id="home_from">xxxxxxxxxxx</span>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 
 <script>
+    $("#FYXX").hide()
+
     var isChanged = false;
     $(function () {
         $('.single-slider').jRange({
@@ -103,7 +136,6 @@
     var path = [];
     var cluster = [];
     var _renderClusterMarker = function (context) {
-        var count = polygonArray.length;
         var count = rentMarkerArray.length;
         var factor = Math.pow(context.count / count, 1 / 18);
         var div = document.createElement('div');
@@ -113,7 +145,7 @@
         var borderColor = 'hsla(' + Hue + ',100%,40%,1)';
         var shadowColor = 'hsla(' + Hue + ',100%,50%,1)';
         div.style.backgroundColor = bgColor;
-        var size = Math.round(30 + Math.pow(context.count / count, 1 / 5) * 20);
+        var size = Math.round(30 + Math.pow(context.count / count, 1 / 5) * 40);
         div.style.width = div.style.height = size + 'px';
         div.style.border = 'solid 1px ' + borderColor;
         div.style.borderRadius = size / 2 + 'px';
@@ -239,30 +271,26 @@
                         rentMarker = new AMap.Marker({
                             map: map,
                             title: window.city_name + "市" + spiderData["title"],
-                            // icon: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
-                            position: position
+                            icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+                            position: position,
                         });
                         rentMarkerArray.push(rentMarker);
                         addcluster();
-                        rentMarker.content =
-                            "<div>房源:<a target = '_blank' href='" + spiderData["url"] +
-                            "'>" + spiderData["title"] + "</a><div><div>价格:" + spiderData["price"] +
-                            "元 (该价格仅为参考价格以跳转页面为准)</div>"
-                        rentMarker.on('click', function (e) {
-                            infoWindow.setContent(e.target.content);
-                            infoWindow.open(map, e.target.getPosition());
-                            if (amapTransfer) amapTransfer.clear();
-                            amapTransfer = new AMap.Transfer({
-                                map: map,
-                                policy: AMap.TransferPolicy.LEAST_TIME,
-                                panel: 'transfer-panel'
-                            });
-                            amapTransfer.search([{
-                                keyword: workAddress
-                            }, {
-                                keyword: spiderData
-                            }], function (status, result) {})
-                        });
+                        //判断元素是否隐藏 如果隐藏就先显示
+                        //如果是显示 就先隐藏再显示
+                        //搞个动态效果也挺美滋滋
+                        rentMarker.on('mousedown', function (e) {
+                            if ($("#FYXX").is(":hidden")) {
+                                $("#FYXX").slideDown(100);
+                            }else{
+                                $("#FYXX").slideUp(100);
+                                $("#FYXX").slideDown(100);
+                            }
+                            document.getElementById("home_name").innerText = spiderData["title"];
+                            document.getElementById("home_price").innerText = spiderData['price'];
+                            // document.getElementById("home_from").innerText = spiderData['from'];
+                            //document.getElementById("home_class").innerText = spiderData['class'];
+                        })
                         break;
                     }
                 }
@@ -271,18 +299,19 @@
     }
 
     function addcluster() {
+        // 聚合调用参数
         map.plugin(["AMap.MarkerClusterer"], function () {
             cluster = new AMap.MarkerClusterer(map, rentMarkerArray, {
-                gridSize: 80,
-                minClusterSize:3,
-                maxZoom: 20,
+                gridSize: 50,
+                minClusterSize: 3,
+                setMinClusterSize: 2, //设置单个聚合的最小数量
                 renderClusterMarker: _renderClusterMarker
             });
         })
     }
 
     function delWorkLocation() {
-        // 删除工作地点并清空标记点
+        // 删除工作地点并清空范围点
         if (polygonArray) map.remove(polygonArray);
         if (workMarker) map.remove(workMarker);
         polygonArray = [];
@@ -292,8 +321,13 @@
         // 清空标记点
         if (rentMarkerArray) map.remove(rentMarkerArray);
         rentMarkerArray = [];
-    }
+        try {
+            map.MarkerClusterer.clearMarkers();
+        } catch (error) {
 
+        }
+        cluster = [];
+    }
 
     function loadRentLocationByFile(data) {
         delRentLocation();
