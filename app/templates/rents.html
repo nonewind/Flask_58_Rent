@@ -1,11 +1,10 @@
 <!--
  * @Author: Ziheng
  * @Date: 2021-01-11 10:19:48
- * @LastEditTime: 2021-03-13 14:25:58
+ * @LastEditTime: 2021-03-15 09:22:31
 -->
 {% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
-<div id="panel"></div>
 <div class="control-panel">
     <div class="control-entry">
         <h2><b>选择工作地点</b></h2>
@@ -69,7 +68,7 @@
     <div class="FYXX_hidden" id="FYXX">
         <h2><b>房源信息</b></h2>
         <div class="FYXX_hidden_img">
-            <img>
+            <img id="home_pic" src="https://img-pre.ivsky.com/img/tupian/pre/201111/28/jiazhong_bandiangou-006.jpg">
         </div>
         <div class="input-item">
             <div class="input-item-prepend">
@@ -271,7 +270,7 @@
                         rentMarker = new AMap.Marker({
                             map: map,
                             title: window.city_name + "市" + spiderData["title"],
-                            icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+                            // icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
                             position: position,
                         });
                         rentMarkerArray.push(rentMarker);
@@ -282,14 +281,15 @@
                         rentMarker.on('mousedown', function (e) {
                             if ($("#FYXX").is(":hidden")) {
                                 $("#FYXX").slideDown(100);
-                            }else{
+                            } else {
                                 $("#FYXX").slideUp(100);
                                 $("#FYXX").slideDown(100);
                             }
+                            $('#home_pic').attr('src', "https://s3.ax1x.com/2021/03/15/6BdKwd.jpg")
                             document.getElementById("home_name").innerText = spiderData["title"];
                             document.getElementById("home_price").innerText = spiderData['price'];
-                            // document.getElementById("home_from").innerText = spiderData['from'];
-                            //document.getElementById("home_class").innerText = spiderData['class'];
+                            document.getElementById("home_from").innerText = spiderData['from'];
+                            document.getElementById("home_class").innerText = spiderData['class'];
                         })
                         break;
                     }
@@ -300,6 +300,11 @@
 
     function addcluster() {
         // 聚合调用参数
+        try {
+            if (cluster) {
+                cluster.setMap(null);
+            }
+        } catch (error) {}
         map.plugin(["AMap.MarkerClusterer"], function () {
             cluster = new AMap.MarkerClusterer(map, rentMarkerArray, {
                 gridSize: 50,
@@ -326,7 +331,11 @@
         } catch (error) {
 
         }
-        cluster = [];
+        try {
+            if (cluster) {
+                cluster.setMap(null);
+            }
+        } catch (error) {}
     }
 
     function loadRentLocationByFile(data) {

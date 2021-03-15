@@ -1,3 +1,8 @@
+/*
+ * @Author: Ziheng
+ * @Date: 2021-01-11 10:19:48
+ * @LastEditTime: 2021-03-15 08:44:52
+ */
 #container {
     width: 100%;
     height: 100%;
@@ -24,14 +29,6 @@
     flex: 1 1 auto;
     padding: 0.75rem 1.25rem;
     z-index: 1;
-    max-height: 1000;
-    transition: max-height 0.3s linear;
-    &.up {
-        max-height: 0;
-    }
-    &.down {
-        max-height: 1000px;
-    }
 }
 
 .input-item {
@@ -177,12 +174,16 @@ select {
     margin: 0 auto;
     justify-content: center;
     /* 水平居中 */
-    background-color: black;
+    /* background-color: black; */
     height: 15rem;
     max-height: 20rem;
     width: 15rem;
     max-width: 20rem;
     flex-direction: column;
+}
+.FYXX_hidden_img img{
+    width: 0 auto;
+    height: 0 auto;
 }
 
 .FYXX_hidden h3 {
