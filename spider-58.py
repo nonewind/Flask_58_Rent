@@ -69,6 +69,7 @@ def spider_main():
                             "price": price,
                             "class":homeType,
                             "img":img,
+                            "from":"58",
                             "update": str(update)
                         }
                         mongoDB_insert(data)
@@ -78,9 +79,6 @@ def spider_main():
                 print("休眠一下")
                 time.sleep(random.uniform(40, 80))  # 随机休眠40~80s
         # 过期数据处理
-        date_clean = (datetime.datetime.today() - datetime.timedelta(days=1)).date()
-        que = {"update": date_clean}
-        coll.delete_many(que)
 
 
 def mongoDB_insert(data):
@@ -117,4 +115,7 @@ if __name__ == "__main__":
         'user-agent':
         'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
     }
+    date_clean = (datetime.datetime.today() - datetime.timedelta(days=1)).date()
+    que = {"update": date_clean}
+    coll.delete_many(que)
     spider_main()
