@@ -30,8 +30,8 @@ def spider_main():
             # 价格等级
             update = datetime.datetime.today().date()
             # 价格等级
-            for row in range(1, 10, 1):
-                # 页面深度 根据抓取结果来看 当页面深度约在25时会出现脏数据
+            for row in range(1, 5, 1):
+                # 数据库内无需存放太多数据
                 print(line['city_zh'] + "价格等级" + str(item) + "的第" + str(row) + "个页面")
                 url = "https://m.58.com/{}/chuzu/b{}/pn{}/".format(line['city_58'], str(item),
                                                                    str(row))
@@ -78,7 +78,7 @@ def spider_main():
                 print("休眠一下")
                 time.sleep(random.uniform(40, 80))  # 随机休眠40~80s
         # 过期数据处理
-        date_clean = (datetime.datetime.today() - datetime.timedelta(days=7)).date()
+        date_clean = (datetime.datetime.today() - datetime.timedelta(days=1)).date()
         que = {"update": date_clean}
         coll.delete_many(que)
 
