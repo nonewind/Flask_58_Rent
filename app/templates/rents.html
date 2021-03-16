@@ -1,7 +1,7 @@
 <!--
  * @Author: Ziheng
  * @Date: 2021-01-11 10:19:48
- * @LastEditTime: 2021-03-15 09:22:31
+ * @LastEditTime: 2021-03-16 10:10:01
 -->
 {% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
@@ -285,7 +285,7 @@
                                 $("#FYXX").slideUp(100);
                                 $("#FYXX").slideDown(100);
                             }
-                            $('#home_pic').attr('src', "https://s3.ax1x.com/2021/03/15/6BdKwd.jpg")
+                            $('#home_pic').attr('src',spiderData["img"] )
                             document.getElementById("home_name").innerText = spiderData["title"];
                             document.getElementById("home_price").innerText = spiderData['price'];
                             document.getElementById("home_from").innerText = spiderData['from'];
