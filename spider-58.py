@@ -28,7 +28,7 @@ def spider_main():
         # 城市名
         for item in range(1, 7, 1):  # 12|34|56 - 0|1|2
             # 价格等级
-            update = datetime.datetime.today().date()
+            update = datetime.datetime.today()
             # 价格等级
             for row in range(1, 5, 1):
                 # 数据库内无需存放太多数据
@@ -70,7 +70,7 @@ def spider_main():
                             "class":homeType,
                             "img":img,
                             "from":"58",
-                            "update": str(update)
+                            "update": update
                         }
                         mongoDB_insert(data)
                 else:
@@ -115,7 +115,9 @@ if __name__ == "__main__":
         'user-agent':
         'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
     }
-    date_clean = (datetime.datetime.today() - datetime.timedelta(days=1)).date()
-    que = {"update": date_clean}
+    date_clean = (datetime.datetime.today() - datetime.timedelta(hours=12))
+    que = {"update": {"$lt":date_clean}}
+    for line in coll.find(que):
+        print(line)
     coll.delete_many(que)
     spider_main()
