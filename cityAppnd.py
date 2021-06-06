@@ -1,7 +1,7 @@
 '''
 Author: Ziheng
 Date: 2021-01-11 10:19:48
-LastEditTime: 2021-03-13 14:46:04
+LastEditTime: 2021-06-06 14:05:26
 '''
 from pymongo import MongoClient
 from config import MONGO
@@ -32,4 +32,4 @@ client = MongoClient(MONGO,connect=False)
 db = client["Fuck_58"]
 coll = db['spider_task']
 
-coll.insert(data)
+coll.insert_one(data)

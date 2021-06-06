@@ -1,7 +1,7 @@
 <!--
  * @Author: Ziheng
  * @Date: 2021-02-24 14:37:05
- * @LastEditTime: 2021-03-13 14:45:41
+ * @LastEditTime: 2021-06-06 15:02:11
 -->
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>后台管理</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/darkly/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="/static/css/admin/Highlight-Clean.css">
     <link rel="stylesheet" href="/static/css/admin/Navigation-Clean.css">
@@ -21,7 +22,9 @@
 
 <body><a id="scroll-to-top" title="Scroll to top" href="#"><i class="fas fa-angle-up"></i></a>
     <nav class="navbar navbar-light navbar-expand-md navigation-clean">
-        <div class="container"><a class="navbar-brand" href="index">快点回家</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand" href="index">快点回家</a><button data-toggle="collapse"
+                class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                    class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link active" href="#">城市管理</a></li>
@@ -37,8 +40,10 @@
                 <p class="text-center">点击下方的提交&nbsp;<br>查询数据库中的已经支持的城市列表</p>
             </div>
 
-                <div class="form-group"><p class="form-control" style="height: 200px;"></div>
-                <div class="form-group"><button class="btn btn-primary">查询</button></div>
+            <div class="form-group">
+                <p class="form-control" style="height: 200px;" id="data_see_data">
+            </div>
+            <div class="form-group"><button class="btn btn-primary" id ="data_see">查询</button></div>
         </div>
     </section>
     <section class="newsletter-subscribe">
@@ -48,8 +53,9 @@
                 <p class="text-center">请在下方输入标准的JSON格式<br>再点击提交</p>
             </div>
 
-                <div class="form-group"><input class="form-control"  name="text_app" placeholder="→在这里输入←" style="height: 200px;"></div>
-                <div class="form-group"><button class="btn btn-primary" >提交</button></div>
+            <div class="form-group"><input class="form-control" id="data_del_data" name="text_app" placeholder='{"city_58": "qd", "city_zh": "青岛"}'
+                    style="height: 200px;"></div>
+            <div class="form-group"><button class="btn btn-primary" id="data_del">提交</button></div>
 
         </div>
     </section>
@@ -60,11 +66,68 @@
                 <p class="text-center">请在下方输入标准的JSON格式<br>再点击提交</p>
             </div>
 
-                <div class="form-group"><input class="form-control"  placeholder="→在这里输入←" style="height: 200px;"></div>
-                <div class="form-group"><button class="btn btn-primary" >提交</button></div>
+            <div class="form-group"><input class="form-control" id="data_add_data" placeholder='{"city_58": "qd", "city_zh": "青岛"}'
+                    style="height: 200px;"></div>
+            <div class="form-group"><button class="btn btn-primary" id="data_add">提交</button></div>
 
         </div>
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function data_del() {
+            var data_del_data = $("#data_del_data").val().replace(" ", "");
+            //data_del_data = JSON.stringify(data_del_data);
+            $.ajax({
+                type: "post",
+                url: "http://127.0.0.1:8386/admin_push?data=" + data_del_data + "&class=1",
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText)["msg"];
+                        alert(return_data)
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
+                    }
+                }
+            })
+        }
+
+        function data_add() {
+            var data_add_data = $("#data_add_data").val().replace(" ", "");
+            //data_del_data = JSON.stringify(data_del_data);
+            $.ajax({
+                type: "post",
+                url: "http://127.0.0.1:8386/admin_push?data=" + data_add_data + "&class=0",
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText)["msg"];
+                        alert(return_data)
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
+                    }
+                }
+            })
+        }
+
+        function data_see() {
+            data_add_data = '{"city_58": "qd", "city_zh": "青岛"}'
+            $.ajax({
+                type: "post",
+                url: "http://127.0.0.1:8386/admin_push?data=" + data_add_data + "&class=2",
+                complete: function (response) {
+                    if (response.status == 200) {
+                        return_data = JSON.parse(response.responseText)["msg"];
+                        alert(JSON.stringify(return_data))
+                        document.getElementById("data_see_data").innerText  = JSON.stringify(return_data)
+                    } else {
+                        alert("数据请求失败 请刷新后重试")
+                    }
+                }
+            })
+        }
+        $('#data_del').on('click', data_del);
+        $('#data_add').on('click', data_add);
+        $('#data_see').on('click', data_see);
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
 </body>

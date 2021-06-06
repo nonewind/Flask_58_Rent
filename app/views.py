@@ -1,8 +1,10 @@
 '''
 Author: Ziheng
 Date: 2021-01-11 10:19:48
-LastEditTime: 2021-03-13 14:45:19
+LastEditTime: 2021-06-06 14:55:17
 '''
+from threading import excepthook
+from pymongo.message import insert
 from app import app
 from flask import render_template, request, redirect, url_for
 from pymongo import MongoClient
@@ -11,10 +13,10 @@ import json
 # 数据库地址 mongoDB server connect
 client = MongoClient(app.config["MONGO"], connect=False)
 db = client["Fuck_58"]
-
-with open("tt.json",'r',encoding='utf8') as ff:
+""" with open("tt.json",'r',encoding='utf8') as ff:
     data_json = json.loads(ff.read())
-print(len(data_json['data']))
+print(len(data_json['data'])) """
+
 
 @app.route('/')
 @app.route('/index')
@@ -45,7 +47,6 @@ def rentsData():
     # 这里不需要验证城市名称 这个名称是由高德查询返回的
     price_level = int(request.args.get("level"))
     list_return = []
-    """
     if price_level == 0:
         list_data = []
         data_0 = coll.find({"cityname": cityname, "priceLevel": 1})
@@ -69,8 +70,7 @@ def rentsData():
         list_return.append(oo_data)
 
     return ({"data": list_return})
-    """
-    return data_json
+
 
 @app.route("/seachCity", methods=['GET'])
 def seachCity():
@@ -128,8 +128,64 @@ def page_not_found(xx):
     return ("""
     <script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js" charset="utf-8" homePageUrl="index" homePageName="回到我的主页"></script>
     """)
+
+
 @app.errorhandler(500)
 def page_not_found(xx):
     return ("""
     <script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/hybrid/app/500/search_children.js" charset="utf-8" homePageUrl="index" homePageName="回到我的主页"></script>
     """)
+
+
+@app.route("/admin_push", methods=['POST', "GET"])
+def admin_push():
+    # 切换到任务表
+    coll = db['spider_task']
+    try:
+        data = request.args.get("data")
+        class_data = str(request.args.get("class"))
+    except:
+        return {"msg": "error!数据不全"}
+    try:
+        data_push = json.loads(data)
+    except:
+        return {"msg": "error!检查格式"}
+    if class_data == "0":
+        # 0 : 增加  1: 删除
+        oo = coll.find()
+        for line in oo:
+            ppp = line['city_task']
+        try:
+            for line in ppp:
+                if line == data_push:
+                    return {"msg": "error!库内已有该城市"}
+        except:
+            return {"msg": "数据库错误 请检查数据库数据"}
+        ppp.append(data_push)
+        data_inset = {"city_task": ppp}
+        coll.drop()
+        coll.insert_one(data_inset)
+        return {"msg": "添加成功"}
+    elif class_data == "2":
+        oo = coll.find()
+        for line in oo:
+            ppp = line['city_task']
+        return {"msg": ppp}
+    else:
+        oo = coll.find()
+        for line in oo:
+            ppp = line['city_task']
+        insert_data = []
+        try:
+            for line in ppp:
+                if line != data_push:
+                    insert_data.append(line)
+        except:
+            return {"msg": "数据库错误 请检查数据库数据"}
+        if len(insert_data) == len(ppp):
+            return {"msg": "error!库内没有该城市"}
+        else:
+            data_inset = {"city_task": insert_data}
+            coll.drop()
+            coll.insert_one(data_inset)
+            return {"msg": "删除成功"}
