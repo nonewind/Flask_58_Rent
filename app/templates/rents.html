@@ -1,7 +1,7 @@
 <!--
  * @Author: Ziheng
  * @Date: 2021-01-11 10:19:48
- * @LastEditTime: 2021-03-16 10:10:01
+ * @LastEditTime: 2021-06-06 16:49:44
 -->
 {% extends "base_GD.html" %} {% block content %}
 <div id="container"></div>
@@ -68,7 +68,9 @@
     <div class="FYXX_hidden" id="FYXX">
         <h2><b>房源信息</b></h2>
         <div class="FYXX_hidden_img">
-            <img id="home_pic" src="https://img-pre.ivsky.com/img/tupian/pre/201111/28/jiazhong_bandiangou-006.jpg">
+            <a id="go_img" href="https://baidu.com" target="_blank">
+                <img style="width: 180px;height: 180px;" id="home_pic"
+                    src="https://img-pre.ivsky.com/img/tupian/pre/201111/28/jiazhong_bandiangou-006.jpg"></a>
         </div>
         <div class="input-item">
             <div class="input-item-prepend">
@@ -285,7 +287,8 @@
                                 $("#FYXX").slideUp(100);
                                 $("#FYXX").slideDown(100);
                             }
-                            $('#home_pic').attr('src',spiderData["img"] )
+                            $('#home_pic').attr('src', spiderData["img"])
+                            $('#go_img').attr('href', spiderData["url"])
                             document.getElementById("home_name").innerText = spiderData["title"];
                             document.getElementById("home_price").innerText = spiderData['price'];
                             document.getElementById("home_from").innerText = spiderData['from'];

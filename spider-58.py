@@ -4,6 +4,7 @@
 import datetime
 import random
 import re
+from threading import excepthook
 import time
 
 import requests
@@ -45,9 +46,9 @@ def spider_main():
                     all_tag = bsobj.find_all("li")
                     for row in all_tag:
                         row = str(row).replace("\n", "").replace("\t", "").replace(" ", "")
-                        if "houseId" not in row:continue
+                        if "strongbox" not in row:continue
                         #line = line.replace("\n", "").replace("\t", "").replace(" ", "")
-                        bat_title = r'<spanclass=\"list-item-info-addr-textstrongbox\">[\d]{1,10}室([\s\S]{1,50})</span><spanclass=\"list-item-info-sp-tag\">'
+                        bat_title = r'<spanclass=\"list-item-info-addr-textstrongbox\">[\d]{1,10}室([\s\S]{1,30})</span>'
                         bat_url = r'class=\"list-item\"href=\"([\s\S]{1,300})shangquan='
                         bat_img = r'bg-src=\"([\s\S]{1,200})\"class=\"list-item-img'
                         bat_homeType = r'<liclass=\"list-item-info-titlestrongbox\">([\s\S]{1,2})\|'
@@ -72,29 +73,13 @@ def spider_main():
                             "from":"58",
                             "update": update
                         }
-                        mongoDB_insert(data)
+                        print(data)
+                        coll.insert_one(data)
                 else:
                     print("抓取失败")
                     pass
                 print("休眠一下")
-                time.sleep(random.uniform(40, 80))  # 随机休眠40~80s
-        # 过期数据处理
-
-
-def mongoDB_insert(data):
-    """
-    提交数据库\n
-    首先进行一次查询 如果能查询到数据 就跳过插入阶段\n
-    如果查询不到 就进行一次插入
-    """
-    pullDB = coll.find(data)
-    try:
-        mmmm = pullDB[0]
-        print("有数据 跳过")
-    except:
-        print("没有数据 插入")
-        coll.insert_one(data)
-
+                time.sleep(random.uniform(5, 10))  # 随机休眠40~80s
 
 def city_get():
     coll = db['spider_task']
@@ -111,7 +96,7 @@ if __name__ == "__main__":
         'accept-language':
         'zh-CN,zh;q=0.9,en;q=0.8',
         'cookie':
-        'f=n; f=n; f=n; listCalledApp=true; f=n; 58home=qd; id58=c5/nfF/1CCNv0++LCce7Ag==; 58tj_uuid=25f9770b-45a0-4257-8f4b-29e75f26faad; als=0; wmda_new_uuid=1; wmda_uuid=ff169493500dcfd5c7988bce040890b1; wmda_visited_projects=%3B11187958619315; xxzl_deviceid=TxQ0vmXmtYX6HHI2Hf0C1Zvn%2BRG9IHZBQ1DhdyHQ%2Flfxaz6zroyvR7lHBvzthpql; myfeet_tooltip=end; Hm_lpvt_3f405f7f26b8855bc0fd96b1ae92db7e=1610011309; Hm_lvt_3f405f7f26b8855bc0fd96b1ae92db7e=1610003453,1610010657,1610010678,1610011309; ppStore_fingerprint=5EDD06E1E476BDCF36EC6E5916965D4B76A00CAB97AFBCC5%EF%BC%BF1610011310893; f=n; mcityName=%u9752%u5C9B; mcity=qd; selectcity=yes; city=qd; new_uv=6; utm_source=; spm=; init_refer=; wmda_session_id_11187958619315=1610073118222-ccbc6cb1-27a3-f7b0; xxzl_cid=c30d20d44aa54551bbb220b2ba33aae9; xzuid=c4cc2124-c249-49e9-8380-1d52375492a1; new_session=0; qz_gdt=; _house_detail_show_time_=3',
+        '58home=bj; id58=c5/nfGC5ws+9P+/XDGI6Ag==; city=bj; 58tj_uuid=d92398d9-3122-4459-9004-71649705467e; als=0; wmda_uuid=b90c68f45eba52ada283c0dbf894d575; wmda_new_uuid=1; wmda_visited_projects=%3B11187958619315; xxzl_deviceid=qtn46pP3OgRANm9sV9iM8fHapK83dF4GY%2BBfQz5nYdzA3UH5JX8Rj%2BUibMgsDJn0; new_uv=2; utm_source=; spm=; init_refer=; wmda_session_id_11187958619315=1622963811553-18571b20-a033-6973; xxzl_cid=efe677af9e7f4aff86c399a043b2937d; xzuid=5b9590a0-5244-4389-bd2f-2907f52655d0; new_session=0; qz_gdt=; f=n; selectcity=yes; mcity=qd; mcityName=%u9752%u5C9B',
         'user-agent':
         'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
     }

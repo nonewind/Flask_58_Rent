@@ -1,7 +1,7 @@
 '''
 Author: Ziheng
 Date: 2021-01-11 10:19:48
-LastEditTime: 2021-06-06 14:55:17
+LastEditTime: 2021-06-06 16:43:57
 '''
 from threading import excepthook
 from pymongo.message import insert
@@ -66,7 +66,7 @@ def rentsData():
         data_1 = coll.find({"cityname": cityname, "priceLevel": 6})
         list_data.extend(data_1)
     for line in list_data:
-        oo_data = {"title": line['title'], "url": line["url"], "price": line["price"]}
+        oo_data = {"title": line['title'], "url": line["url"], "price": line["price"],"img":line["img"],"class":line["class"],"from":line['from']}
         list_return.append(oo_data)
 
     return ({"data": list_return})
